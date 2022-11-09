@@ -1,29 +1,25 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.20"
-    application
+  kotlin("jvm") version "1.7.20"
+  application
 }
 
-group = "com.alexelkin"
+group = "com.alexelkin.pws_library_manager"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+  //  testImplementation(kotlin("test"))
 }
 
 tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+  useJUnitPlatform()
 }
 
 application {
-    mainClass.set("MainKt")
+  mainClass.set("MainKt")
 }
