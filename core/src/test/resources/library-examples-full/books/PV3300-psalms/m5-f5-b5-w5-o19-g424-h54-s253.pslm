@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<psalm version='1.01' name='О Спаситель! Благодать'>
+
+<numbers>
+<number edition="Gusli">424</number>
+<number edition="PV2555">5</number>
+<number edition="PV2001">5</number>
+<number edition="PV3300">5</number>
+<number edition="PV800">19</number>
+<number edition="PV3055">5</number>
+<number edition="CHymns">54</number>
+<number edition="SDP">253</number>
+</numbers>
+
+<tonalities>
+<tonality>f major</tonality>
+<tonality>F major</tonality>
+</tonalities>
+<references>
+<bibleref>Дай мне уразуметь путь повелений Твоих (Пс. 118:27)</bibleref>
+</references>
+
+<text>
+
+<verse number='1'>
+О Спаситель! Благодать 
+На благую весть излей; 
+Дай нам все слова понять, 
+Все слова любви Твоей.
+</verse>
+
+<chorus number='2, 4, 6'>
+Дай общение сердцам,
+Всех в одно соедини, 
+Обрати лицо Ты к нам 
+И беседу в нас начни.
+</chorus>
+
+<verse number='3'>
+Ты открой всем нам сердца 
+И Твои слова посей,
+Пусть на них падет роса 
+Милости, любви Твоей!
+</verse>
+
+<verse number='5'>
+Да удобрит Божий Дух
+Наше сердце и наш слух;
+Да скорей произрастет
+В нашей жизни вечный плод!
+</verse>
+
+</text>
+</psalm>
