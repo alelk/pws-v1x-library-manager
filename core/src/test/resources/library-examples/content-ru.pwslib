@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pwslibrary version='1.2'>
+<books>
+<ref preference='15'>books/YunostIisusu.pwsbk</ref>
+<ref preference='0'>books/ChudnyKray.pwsbk</ref>
+<ref preference='0'>books/SDP.pwsbk</ref>
+<ref preference='40'>books/PV3300.pwsbk</ref>
+</books>
+</pwslibrary>
+
