@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<psalm version='2.01' name='Когда трудно по жизни идти'>
+
+<numbers>
+<number edition="PV2001">1150</number>
+</numbers>
+
+<tonalities>
+<tonality>a minor</tonality>
+</tonalities>
+<references>
+<psalmref reason="variation" volume="66" edition="PV3300" number="1150"/>
+<psalmref reason="variation" volume="77" edition="PV3055" number="1150"/>
+<psalmref reason="variation" volume="77" edition="PV2555" number="1150"/>
+<psalmref reason="variation" volume="64" edition="YunostIisusu" number="219"/>
+</references>
+
+<text>
+
+<verse number='1'>
+Когда трудно по жизни идти.
+Когда веры так мало в груди,
+Когда холод в душе нахожу,
+Я к Тебе, мой Господь, прихожу.
+Состраданье ко мне прояви.
+Дай мне больше огня и любви.
+Без сомненья чтоб верить я мог:
+Ты меня не оставишь, мой Бог.
+</verse>
+
+<verse number='2'>
+Я вкусил, как Ты благ, мой Господь,
+Силу дай победить грех и плоть,
+И куда без Тебя я пойду?
+В мире счастья ведь я не найду.
+Помоги мне в борьбе устоять -
+Можешь Ты лишь меня поддержать.
+Жизнь моя хороша лишь с Тобой,
+Лишь с Тобой, мой Господь дорогой.
+</verse>
+
+<verse number='3'>
+Дай послушным всегда быть Тебе
+В жизни, в радости, в скорби, в нужде.
+Дай во всем на Тебя походить,
+И надеяться, верить, любить.
+Дай мне видеть Тебя впереди,
+За Тобою покорно идти.
+Дай мне помнить сегодня о том:
+Здесь страданье, а радость - потом.
+</verse>
+
+</text>
+</psalm>
