@@ -10,12 +10,22 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import java.io.File
 import java.lang.IllegalStateException
 import java.net.URI
+import java.util.logging.Logger
 
 class LibraryCtx(val library: Library, val xmlMapper: ObjectMapper, val libraryUri: URI) {
 
+  private val log = Logger.getLogger(javaClass.name)
+
   private val booksByUri by lazy {
     val files = library.bookRefs.sortedByDescending { it.preference }.map { ref -> libraryUri.resolve(ref.bookRef) }
-    files.map { it to xmlMapper.readValue(it.toURL(), Book::class.java) }
+    files.map {
+      try {
+        it to xmlMapper.readValue(it.toURL(), Book::class.java)
+      } catch (e: Throwable) {
+        log.severe { "unable to parse book $it: ${e.message}" }
+        throw e
+      }
+    }
   }
 
   val books: List<Book> by lazy { booksByUri.map { it.second } }
@@ -23,7 +33,14 @@ class LibraryCtx(val library: Library, val xmlMapper: ObjectMapper, val libraryU
   val Book.psalms: List<Psalm>
     get() = booksByUri.find { it.second == this }?.let { (uri, book) ->
       val files = book.psalmRefs.map { ref -> uri.resolve(ref) }
-      files.map { xmlMapper.readValue(it.toURL(), Psalm::class.java) }
+      files.map {
+        try {
+          xmlMapper.readValue(it.toURL(), Psalm::class.java)
+        } catch (e: Throwable) {
+          log.severe { "unable to parse psalm $it: ${e.message}" }
+          throw e
+        }
+      }
     } ?: throw IllegalStateException("Unable to load psalms of this book. Is this book from another library?")
 
 }

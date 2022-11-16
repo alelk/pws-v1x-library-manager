@@ -1,7 +1,7 @@
 package com.alexelkin.pws_library_manager.core.model
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import java.lang.IllegalArgumentException
 
 /**
@@ -9,7 +9,7 @@ import java.lang.IllegalArgumentException
  *
  * Created by Alex Elkin on 26.03.2015.
  */
-enum class BookEdition(@get: JsonProperty val signature: String, val fileSignature: String, private val sortOrder: Int) {
+enum class BookEdition(@get: JsonValue val signature: String, val fileSignature: String, private val sortOrder: Int) {
   PV3300("PV3300", "m", 1),
   PV3055("PV3055", "f", 2),
   PV2555("PV2555", "b", 3),
