@@ -16,6 +16,8 @@ dependencies {
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0") // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0") // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
 
+  implementation(kotlin("script-runtime"))
+
   // Test dependencies
   testImplementation(kotlin("test"))
   testImplementation("io.kotest:kotest-runner-junit5:5.5.0")
