@@ -18,8 +18,8 @@ trait PsalmNumberXmlConverter {
   }
 
   implicit lazy val psalmNumberEncoder: XmlEncoder[PsalmNumber] = XmlEncoder.of { psalmNumber =>
-    <number edition={psalmNumber.bookEdition}>
-      {psalmNumber.number}
-    </number>
+    // @formatter:off
+    <number edition={psalmNumber.bookEdition}>{psalmNumber.number}</number>
+    // @formatter:on
   }
 }
