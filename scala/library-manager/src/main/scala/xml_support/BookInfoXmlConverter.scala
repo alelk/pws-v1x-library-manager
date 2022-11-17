@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.Book
+import model.BookInfo
 
 import advxml.data.*
 import advxml.implicits.*
@@ -13,9 +13,9 @@ import java.util.Locale
 import scala.util.Try
 import scala.xml.NodeSeq
 
-trait BookXmlConverter {
+trait BookInfoXmlConverter {
 
-  implicit lazy val bookXmlDecoder: XmlDecoder[Book] = XmlDecoder.of { book =>
+  implicit lazy val bookInfoXmlDecoder: XmlDecoder[BookInfo] = XmlDecoder.of { book =>
     (
       $(book).attr("version").asValidated[String],
       $(book).attr("name").asValidated[String],
@@ -49,10 +49,10 @@ trait BookXmlConverter {
         }
         case None => Nil.valid
       }
-      ).mapN(Book.apply)
+      ).mapN(BookInfo.apply)
   }
 
-  implicit lazy val bookXmlEncoder: XmlEncoder[Book] = XmlEncoder.of { book =>
+  implicit lazy val bookInfoXmlEncoder: XmlEncoder[BookInfo] = XmlEncoder.of { book =>
     // @formatter:off
     <book version={book.version} name={book.name} language={book.language.toString}>
       <displayName>{book.displayName}</displayName>
