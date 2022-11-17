@@ -26,26 +26,26 @@ trait BookInfoXmlConverter {
           }
         }
       },
-      $(book).displayName.content.asValidated[String],
-      $(book).displayShortName.content.asValidated[String],
-      $(book).edition.content.asValidated[String],
+      $(book).displayName.content.asValidated[String].map(_.trim),
+      $(book).displayShortName.content.asValidated[String].map(_.trim),
+      $(book).edition.content.asValidated[String].map(_.trim),
       $(book).psalms.ref.run[ValidatedNelThrow].andThen { psalmRefs =>
         psalmRefs.map(ref => $(ref).content.asValidated[String].andThen { ref =>
-          ValidatedNelThrow.fromTry(RelativeUrl.parseTry(ref))
+          ValidatedNelThrow.fromTry(RelativeUrl.parseTry(ref.trim))
         }).toList.sequence
       },
-      $(book).releaseDate.content.as[Option[String]].valid,
-      $(book).description.content.as[Option[String]].valid,
-      $(book).preface.content.as[Option[String]].valid,
+      $(book).releaseDate.content.as[Option[String]].map(_.trim).valid,
+      $(book).description.content.as[Option[String]].map(_.trim).valid,
+      $(book).preface.content.as[Option[String]].map(_.trim).valid,
       $(book).creators.run[Option] match {
         case Some(node) => $(node).creator.run[ValidatedNelThrow].andThen { creators =>
-          creators.map(v => $(v).content.asValidated[String]).toList.sequence
+          creators.map(v => $(v).content.asValidated[String].map(_.trim)).toList.sequence
         }
         case None => Nil.valid
       },
       $(book).editors.run[Option] match {
         case Some(node) => $(node).editor.run[ValidatedNelThrow].andThen { editors =>
-          editors.map(v => $(v).content.asValidated[String]).toList.sequence
+          editors.map(v => $(v).content.asValidated[String].map(_.trim)).toList.sequence
         }
         case None => Nil.valid
       }
@@ -58,7 +58,7 @@ trait BookInfoXmlConverter {
       <displayName>{book.displayName}</displayName>
       <displayShortName>{book.displayShortName}</displayShortName>
       <edition>{book.edition}</edition>
-      {book.releaseDate.map(v => <releaseData>{v}</releaseData>).getOrElse(NodeSeq.Empty)}
+      {book.releaseDate.map(v => <releaseDate>{v}</releaseDate>).getOrElse(NodeSeq.Empty)}
       {book.description.map(v => <description>{v}</description>).getOrElse(NodeSeq.Empty)}
       {book.preface.map(v => <preface>{v}</preface>).getOrElse(NodeSeq.Empty)}
       <creators>
