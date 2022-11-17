@@ -1,16 +1,22 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{Psalm, PsalmNumber, Tonality}
+import model.{BibleRef, Psalm, PsalmChorus, PsalmNumber, PsalmRef, PsalmRefReason, PsalmVerse, Tonality}
 
 import advxml.data.ValidatedNelThrow
 import advxml.implicits.*
 import cats.data.Validated.Valid
 import com.github.dwickern.macros.NameOf.*
+import org.scalactic.PrettyPair
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.*
 
-class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmXmlConverter with PsalmNumberXmlConverter {
+import scala.xml.PrettyPrinter
+
+class PsalmXmlConverterTest
+  extends AnyFlatSpec
+    with should.Matchers
+    with PsalmXmlConverter with PsalmNumberXmlConverter with PsalmPartXmlConverter with ReferenceXmlConverter {
 
   nameOf(psalmDecoder) should "parse psalm from XML content" in {
     val xml =
@@ -26,6 +32,26 @@ class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmX
         <author>Author Name</author>
         <translator>Translator Name</translator>
         <composer>Composer Name</composer>
+        <references>
+          <bibleref>Some Bible text 1</bibleref>
+          <psalmref reason="variation" volume="88" edition="PV100" number="10"/>
+          <bibleref>Some Bible text 2</bibleref>
+          <psalmref reason="variation" volume="70" edition="PV220" number="20"/>
+        </references>
+        <text>
+          <verse numbers="1">
+            Verse 1 Line 1
+            Verse 1 Line 2
+          </verse>
+          <chorus numbers="2,4">
+            Chorus Line 1
+            Chorus Line 2
+          </chorus>
+          <verse numbers="3">
+            Verse 2 Line 1
+            Verse 2 Line 3
+          </verse>
+        </text>
       </psalm>
 
     val Valid(psalm) = xml.decode[Psalm]
@@ -44,6 +70,14 @@ class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmX
     psalm.author shouldBe Some("Author Name")
     psalm.translator shouldBe Some("Translator Name")
     psalm.composer shouldBe Some("Composer Name")
+    psalm.references should matchPattern {
+      case
+        List(
+        BibleRef("Some Bible text 1"),
+        PsalmRef(PsalmRefReason.Variation, 88, PsalmNumber("PV100", 10)),
+        BibleRef("Some Bible text 2"),
+        PsalmRef(PsalmRefReason.Variation, 70, PsalmNumber("PV220", 20))) =>
+    }
   }
 
   nameOf(psalmEncoder) should "serialize psalm to XML" in {
@@ -55,12 +89,22 @@ class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmX
         tonalities = List(Tonality("a-major"), Tonality("c-major")),
         author = Some("Author"),
         translator = Some("Translator"),
-        composer = Some("Composer")
+        composer = Some("Composer"),
+        references = List(
+          BibleRef("Some Bible text 1"),
+          PsalmRef(PsalmRefReason.Variation, 88, PsalmNumber("PV3000", 10)),
+          BibleRef("Some Bible text 2"),
+          PsalmRef(PsalmRefReason.Variation, 70, PsalmNumber("PV2000", 20))
+        ),
+        text = List(
+          PsalmVerse(numbers = Set(1), text = "Verse 1 Line 1\nVerse 1 Line 2"),
+          PsalmChorus(numbers = Set(2, 4), text = "Chorus Line 1\nChorus Line 2"),
+          PsalmVerse(numbers = Set(3), text = "Verse 2 Line 1\nVerse 2 Line 2"),
+        )
       ).encode
 
-    println(actual)
-
     val expected =
+    // @formatter:off
       <psalm version="1.2.0" name="Psalm Name">
         <numbers>
           <number edition="PV3300">123</number>
@@ -73,7 +117,19 @@ class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmX
         <author>Author</author>
         <translator>Translator</translator>
         <composer>Composer</composer>
+        <references>
+          <bibleref>Some Bible text 1</bibleref>
+          <psalmref reason="variation" volume="88" edition="PV3000" number="10"/>
+          <bibleref>Some Bible text 2</bibleref>
+          <psalmref reason="variation" volume="70" edition="PV2000" number="20"/>
+        </references>
+        <text>
+          <verse numbers="1">{"Verse 1 Line 1\nVerse 1 Line 2"}</verse>
+          <chorus numbers="2,4">{"Chorus Line 1\nChorus Line 2"}</chorus>
+          <verse numbers="3">{"Verse 2 Line 1\nVerse 2 Line 2"}</verse>
+        </text>
       </psalm>
+      // @formatter:on
     actual.normalize.toString() shouldBe expected.normalize.toString()
   }
 
@@ -86,7 +142,18 @@ class PsalmXmlConverterTest extends AnyFlatSpec with should.Matchers with PsalmX
         tonalities = List(Tonality("A-major"), Tonality("c-minor")),
         author = Some("Author"),
         translator = Some("translator"),
-        composer = Some("Composer"))
+        composer = Some("Composer"),
+        references = List(
+          BibleRef("Some Bible text 1"),
+          PsalmRef(PsalmRefReason.Variation, 88, PsalmNumber("PV3000", 10)),
+          BibleRef("Some Bible text 2"),
+          PsalmRef(PsalmRefReason.Variation, 70, PsalmNumber("PV2000", 20))
+        ),
+        text = List(
+          PsalmVerse(numbers = Set(1), text = "Verse 1 Line 1\nVerse 1 Line2"),
+          PsalmChorus(numbers = Set(2, 4), text = "Chorus Line 1\nChorus Line2"),
+          PsalmVerse(numbers = Set(3), text = "Verse 2 Line 1\nVerse 2 Line2"),
+        ))
     val Valid(actual) = expected.encode.normalize.decode[Psalm]
     actual shouldBe expected
   }
