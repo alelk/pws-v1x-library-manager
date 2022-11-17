@@ -1,17 +1,18 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{Psalm, PsalmNumber, Tonality}
+import model.{Psalm, PsalmNumber, PsalmPart, Reference, Tonality}
 
 import advxml.transform.XmlZoom.*
 import advxml.data.*
 import advxml.implicits.*
+import cats.data.Validated.{Invalid, Valid}
 import cats.syntax.all.*
 
 import scala.xml.{NodeSeq, Utility}
 
 trait PsalmXmlConverter {
-  this: PsalmNumberXmlConverter =>
+  this: PsalmNumberXmlConverter with PsalmPartXmlConverter with ReferenceXmlConverter =>
 
   implicit lazy val tonalityDecoder: XmlDecoder[Tonality] = XmlDecoder.of { tonality =>
     tonality.text.asValidated[String].map(v => Tonality(v.trim))
@@ -29,6 +30,15 @@ trait PsalmXmlConverter {
       $(psalm).attr("name").asValidated[String],
       $(psalm).numbers.number.run[ValidatedNelThrow].andThen { psalmNumbers =>
         psalmNumbers.map(_.asValidated[PsalmNumber]).toList.sequence
+      },
+      $(psalm).text.down("_").run[ValidatedNelThrow].andThen { psalmParts =>
+        psalmParts.map(_.asValidated[PsalmPart]).toList.sequence
+      },
+      $(psalm).references.run[Option] match {
+        case Some(node) => $(node).down("_").run[ValidatedNelThrow].andThen { references =>
+          references.map(_.asValidated[Reference]).toList.sequence
+        }
+        case None => Nil.valid
       },
       $(psalm).tonalities.tonality.run[ValidatedNelThrow].andThen { tonalities =>
         tonalities.map(_.asValidated[Tonality]).toList.sequence
@@ -51,6 +61,16 @@ trait PsalmXmlConverter {
       {psalm.author.map(v => <author>{v}</author> ).getOrElse(NodeSeq.Empty)}
       {psalm.translator.map(v => <translator>{v}</translator>).getOrElse(NodeSeq.Empty)}
       {psalm.composer.map(v => <composer>{v}</composer>).getOrElse(NodeSeq.Empty)}
+      {psalm.references match {
+        case Nil => NodeSeq.Empty
+        case references =>
+          <references>
+            {references.map(_.encode)}
+          </references>
+      }}
+      <text>
+        {psalm.text.map(_.encode)}
+      </text>
     </psalm>
     // @formatter:on
   }
