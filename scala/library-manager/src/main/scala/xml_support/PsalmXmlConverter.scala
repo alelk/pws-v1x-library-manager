@@ -40,8 +40,11 @@ trait PsalmXmlConverter {
         }
         case None => Nil.valid
       },
-      $(psalm).tonalities.tonality.run[ValidatedNelThrow].andThen { tonalities =>
-        tonalities.map(_.asValidated[Tonality]).toList.sequence
+      $(psalm).tonalities.run[Option] match {
+        case Some(node) => $(node).tonality.run[ValidatedNelThrow].andThen { tonalities =>
+          tonalities.map(_.asValidated[Tonality]).toList.sequence
+        }
+        case None => Nil.valid
       },
       $(psalm).author.content.as[Option[String]].valid,
       $(psalm).translator.content.as[Option[String]].valid,

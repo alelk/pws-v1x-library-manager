@@ -13,7 +13,7 @@ trait PsalmPartXmlConverter {
 
   implicit lazy val psalmPartDecoder: XmlDecoder[PsalmPart] = XmlDecoder.of { psalmPart =>
     lazy val data = (
-      $(psalmPart).attr("numbers").asValidated[String].map(_.split(",").map(_.trim.toInt).toSet),
+      $(psalmPart).attr("number").asValidated[String].map(_.split(",").map(_.trim.toInt).toSet),
       psalmPart.text.asValidated[String].map(_.split("\n").map(_.trim).filter(!_.isBlank).mkString("\n"))
     )
     psalmPart.label.asValidated[String] match
@@ -25,7 +25,7 @@ trait PsalmPartXmlConverter {
 
   implicit lazy val psalmVerseEncoder: XmlEncoder[PsalmVerse] = XmlEncoder.of { psalmPart =>
     // @formatter:off
-    <verse numbers={psalmPart.numbers.toList.sorted.mkString(",")}>
+    <verse number={psalmPart.numbers.toList.sorted.mkString(",")}>
       {psalmPart.text}
     </verse>
     // @formatter:on
@@ -33,7 +33,7 @@ trait PsalmPartXmlConverter {
 
   implicit lazy val psalmChorusEncoder: XmlEncoder[PsalmChorus] = XmlEncoder.of { psalmPart =>
     // @formatter:off
-    <chorus numbers={psalmPart.numbers.toList.sorted.mkString(",")}>
+    <chorus number={psalmPart.numbers.toList.sorted.mkString(",")}>
       {psalmPart.text}
     </chorus>
     // @formatter:on
