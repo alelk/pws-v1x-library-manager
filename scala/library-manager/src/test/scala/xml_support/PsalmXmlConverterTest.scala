@@ -39,15 +39,15 @@ class PsalmXmlConverterTest
           <psalmref reason="variation" volume="70" edition="PV220" number="20"/>
         </references>
         <text>
-          <verse numbers="1">
+          <verse number="1">
             Verse 1 Line 1
             Verse 1 Line 2
           </verse>
-          <chorus numbers="2,4">
+          <chorus number="2,4">
             Chorus Line 1
             Chorus Line 2
           </chorus>
-          <verse numbers="3">
+          <verse number="3">
             Verse 2 Line 1
             Verse 2 Line 3
           </verse>
@@ -124,9 +124,9 @@ class PsalmXmlConverterTest
           <psalmref reason="variation" volume="70" edition="PV2000" number="20"/>
         </references>
         <text>
-          <verse numbers="1">{"Verse 1 Line 1\nVerse 1 Line 2"}</verse>
-          <chorus numbers="2,4">{"Chorus Line 1\nChorus Line 2"}</chorus>
-          <verse numbers="3">{"Verse 2 Line 1\nVerse 2 Line 2"}</verse>
+          <verse number="1">{"Verse 1 Line 1\nVerse 1 Line 2"}</verse>
+          <chorus number="2,4">{"Chorus Line 1\nChorus Line 2"}</chorus>
+          <verse number="3">{"Verse 2 Line 1\nVerse 2 Line 2"}</verse>
         </text>
       </psalm>
       // @formatter:on
