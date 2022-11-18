@@ -14,7 +14,7 @@ class PsalmPartXmlConverterTest extends AnyFlatSpec with should.Matchers with Ps
 
   nameOf(psalmPartDecoder) should "parse psalm verse from XML content" in {
     val Valid(psalmPart) =
-      <verse numbers="1,2,3">
+      <verse number="1,2,3">
         Line 1
         Line 2
       </verse>.decode[PsalmPart]
@@ -26,7 +26,7 @@ class PsalmPartXmlConverterTest extends AnyFlatSpec with should.Matchers with Ps
 
   it should "parse psalm chorus from XML content" in {
     val Valid(psalmPart) =
-      <chorus numbers="1,4,7">
+      <chorus number="1,4,7">
         Line 1
         Line 2
       </chorus>.decode[PsalmPart]
@@ -39,7 +39,7 @@ class PsalmPartXmlConverterTest extends AnyFlatSpec with should.Matchers with Ps
   nameOf(psalmPartEncoder) should "serialize psalm verse to XML" in {
     val actual = (PsalmVerse(numbers = Set(1, 2, 3), text = "Line 1\nLine 2"): PsalmPart).encode.normalize.toString()
     val expected =
-      <verse numbers="1,2,3">
+      <verse number="1,2,3">
         {"Line 1\nLine 2"}
       </verse>
     actual shouldBe expected.normalize.toString()
@@ -48,7 +48,7 @@ class PsalmPartXmlConverterTest extends AnyFlatSpec with should.Matchers with Ps
   it should "serialize psalm chorus to XML" in {
     val actual = (PsalmChorus(numbers = Set(1, 3, 5), text = "Line 1\nLine 2"): PsalmPart).encode.normalize.toString()
     val expected =
-      <chorus numbers="1,3,5">
+      <chorus number="1,3,5">
         {"Line 1\nLine 2"}
       </chorus>
     actual shouldBe expected.normalize.toString()
