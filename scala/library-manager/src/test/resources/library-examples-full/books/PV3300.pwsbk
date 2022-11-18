@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book version="1.02" name="Book 2 - 3300" language="ru">
+    <displayName>Book 2 - 3300</displayName>
+    <displayShortName>PV-3300</displayShortName>
+    <edition>PV3300</edition>
+    <releaseDate>2008</releaseDate>
+    <description>Description</description>
+    <psalms>
+        <ref>PV3300-psalms/m1-f1-b1-w1-o1-g205-h131-s247.pslm</ref>
+    </psalms>
+</book>

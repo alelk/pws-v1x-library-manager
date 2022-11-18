@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book version="2.01" name="Book 1 Name" language="ru">
+    <displayName>Book 1 - 2001</displayName>
+    <displayShortName>PV-2001</displayShortName>
+    <edition>PV2001</edition>
+    <releaseDate>1999</releaseDate>
+    <description>Book 1 Description</description>
+    <preface>
+        Book 1 Preface
+    </preface>
+    <editors>
+        <editor>Editor 1</editor>
+        <editor>Editor 2</editor>
+    </editors>
+    <psalms>
+        <ref>PV2001-psalms/w1094.pslm</ref>
+        <ref>PV2001-psalms/w1150.pslm</ref>
+    </psalms>
+</book>

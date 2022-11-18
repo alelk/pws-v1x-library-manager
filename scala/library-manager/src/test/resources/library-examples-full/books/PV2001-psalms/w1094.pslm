@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<psalm version='2.01' name='Psalm 1094 name'>
+
+<numbers>
+<number edition="PV2001">1094</number>
+</numbers>
+
+<references>
+<psalmref reason="variation" volume="65" edition="PV3300" number="1094"/>
+<psalmref reason="variation" volume="76" edition="PV3055" number="2923"/>
+</references>
+
+<text>
+
+<verse number='1'>
+Verse 1 Line 1
+Verse 1 Line 2
+Verse 1 Line 3
+Verse 1 Line 4
+</verse>
+
+<verse number='2'>
+Verse 2 Line 1
+Verse 2 Line 2
+Verse 2 Line 3
+Verse 2 Line 4
+</verse>
+
+<verse number='3'>
+Verse 2 Line 1 
+Verse 2 Line 2 
+Verse 2 Line 3 
+Verse 2 Line 4
+</verse>
+
+</text>
+</psalm>
