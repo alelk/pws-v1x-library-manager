@@ -12,16 +12,16 @@ import io.lemonlabs.uri.Url
 import java.net.{URI, URL}
 import scala.xml.XML
 
-class Library private[library_manager](info: LibraryInfo, url: Url) extends BookInfoXmlConverter {
+class Library private[library_manager](val info: LibraryInfo, val url: Url) extends BookInfoXmlConverter {
   lazy val books: ValidatedNelThrow[List[Book]] =
     info.bookRefs.map { ref =>
       val bookUrl = Url.parse(URI.create(url.toString).resolve(ref.reference.toString).toString)
       XML.load(bookUrl.toString).decode[BookInfo]
-        .map(Book(_, url))
+        .map(Book(_, bookUrl))
     }.sequence
 }
 
-class Book private[library_manager](info: BookInfo, url: Url)
+class Book private[library_manager](val info: BookInfo, val url: Url)
   extends PsalmXmlConverter with PsalmPartXmlConverter with PsalmNumberXmlConverter with ReferenceXmlConverter {
 
   lazy val psalms: ValidatedNelThrow[List[Psalm]] =
