@@ -1,6 +1,6 @@
 package com.alelk.pws.library_manager
 
 @main
-def main(): Unit = {
+def main(args: String*): Unit = {
   println("Hello world!")
 }
