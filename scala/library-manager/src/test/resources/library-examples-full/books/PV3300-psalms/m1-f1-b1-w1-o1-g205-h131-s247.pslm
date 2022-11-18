@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<psalm version='1.01' name='Psalm Name m1'>
+
+<numbers>
+<number edition="CHymns">131</number>
+<number edition="PV3300">1</number>
+<number edition="PV3055">1</number>
+<number edition="PV2555">1</number>
+<number edition="SDP">247</number>
+<number edition="PV2001">1</number>
+<number edition="PV800">1</number>
+<number edition="Gusli">205</number>
+</numbers>
+
+<tonalities>
+<tonality>a major</tonality>
+<tonality>A major</tonality>
+</tonalities>
+<author>И. С. Проханов</author>
+<translator>И. С. Проханов</translator>
+<composer>E. Gebhardt</composer>
+<references>
+<bibleref>Слушайте слово (Ам. 3:1)</bibleref>
+</references>
+
+<text>
+
+<verse number='1'>
+Verse 1 Line 1
+Verse 1 Line 2
+Verse 1 Line 3
+Verse 1 Line 4
+</verse>
+
+<chorus number='2, 4, 6, 8'>
+Chorus Line 1
+Chorus Line 2
+Chorus Line 3
+Chorus Line 4
+</chorus>
+
+<verse number='3'>
+Verse 3 Line 1
+Verse 3 Line 2
+Verse 3 Line 3
+Verse 3 Line 4
+</verse>
+
+<verse number='5'>
+Verse 5 Line 1
+Verse 5 Line 2
+Verse 5 Line 3
+Verse 5 Line 4
+</verse>
+
+<verse number='7'>
+Verse 7 Line 1
+Verse 7 Line 2
+Verse 7 Line 3
+Verse 7 Line 4
+</verse>
+
+</text>
+</psalm>
