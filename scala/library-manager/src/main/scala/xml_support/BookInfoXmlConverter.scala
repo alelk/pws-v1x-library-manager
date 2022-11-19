@@ -29,10 +29,13 @@ trait BookInfoXmlConverter {
       $(book).displayName.content.asValidated[String].map(_.trim),
       $(book).displayShortName.content.asValidated[String].map(_.trim),
       $(book).edition.content.asValidated[String].map(_.trim),
-      $(book).psalms.ref.run[ValidatedNelThrow].andThen { psalmRefs =>
-        psalmRefs.map(ref => $(ref).content.asValidated[String].andThen { ref =>
-          ValidatedNelThrow.fromTry(RelativeUrl.parseTry(ref.trim))
-        }).toList.sequence
+      $(book).psalms.run[Option] match {
+        case Some(node) => $(node).ref.run[ValidatedNelThrow].andThen { psalmRefs =>
+          psalmRefs.map(ref => $(ref).content.asValidated[String].andThen { ref =>
+            ValidatedNelThrow.fromTry(RelativeUrl.parseTry(ref.trim))
+          }).toList.sequence
+        }
+        case None => Nil.valid
       },
       $(book).releaseDate.content.as[Option[String]].map(_.trim).valid,
       $(book).description.content.as[Option[String]].map(_.trim).valid,
