@@ -40,3 +40,7 @@ trait PwsLibraryV1xLoader extends LibraryInfoXmlConverter {
         f(Library(libInfo, url))
       }
 }
+
+object PwsLibraryHelper extends PwsLibraryV1xLoader {
+  def parseUrl(url: String): Url = Url.parse(url)
+}
