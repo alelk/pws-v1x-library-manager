@@ -1,4 +1,4 @@
-ThisBuild / version := "0.2.0-SNAPSHOT"
+ThisBuild / version := "0.3.0"
 ThisBuild / versionScheme := Some("semver-spec")
 ThisBuild / organization := "com.alelk.pws"
 ThisBuild / organizationName := "Alex Elkin"
@@ -27,10 +27,7 @@ libraryDependencies += "io.lemonlabs" %% "scala-uri" % "4.0.3"
 
 publishTo := {
   val github = "https://maven.pkg.github.com/alelk/pws-v1x-library-manager"
-  if (isSnapshot.value)
-    Some("snapshots" at github)
-  else
-    Some("releases" at github)
+  Some("GitHub Package Registry" at github)
 }
 publishMavenStyle := true
 sys.env.get("GITHUB_TOKEN") match {
