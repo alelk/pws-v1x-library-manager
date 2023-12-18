@@ -1,4 +1,4 @@
-ThisBuild / version := "0.3.0"
+ThisBuild / version := "0.4.0"
 ThisBuild / versionScheme := Some("semver-spec")
 ThisBuild / organization := "com.alelk.pws"
 ThisBuild / organizationName := "Alex Elkin"
