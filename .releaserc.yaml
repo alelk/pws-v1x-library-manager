@@ -2,10 +2,6 @@ branches:
   # release branch
   - main
 
-  - name: feature/javaapi
-    prerelease: alpha
-    channel: '${name}'
-
   # maintenance branch
   - name: '+([0-9])?(.{+([0-9]),x}).x'
 
@@ -13,7 +9,6 @@ branches:
   - name: next
     prerelease: rc
     channel: '${name}'
-
 
 tagFormat: v${version}
 
@@ -25,10 +20,8 @@ plugins:
       changelogTitle: '# PWS Library Manager v1 Changelog'
   - - '@semantic-release/exec'
     - analyzeCommitsCmd: |
-        echo "Last release: ${lastRelease.version}"
         echo "${lastRelease.version}" > .lastRelease.txt
       verifyReleaseCmd: |
-        echo "Next release: ${nextRelease.version}"
         echo "${nextRelease.version}" > . nextRelease.txt
       publishCmd: |
         if [[ "${nextRelease.version}" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]; then
