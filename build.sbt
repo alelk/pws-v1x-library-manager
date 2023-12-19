@@ -1,4 +1,7 @@
-ThisBuild / version := "0.5.0"
+import scala.io.Source
+import scala.util.Using
+
+ThisBuild / version := Using(Source.fromFile("app.version"))(_.mkString.trim).getOrElse("0.0.0")
 ThisBuild / versionScheme := Some("semver-spec")
 ThisBuild / organization := "com.alelk.pws"
 ThisBuild / organizationName := "Alex Elkin"
