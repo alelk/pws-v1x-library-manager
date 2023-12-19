@@ -22,7 +22,7 @@ plugins:
     - analyzeCommitsCmd: |
         echo "${lastRelease.version}" > .lastRelease.txt
       verifyReleaseCmd: |
-        echo "${nextRelease.version}" > . nextRelease.txt
+        echo "${nextRelease.version}" > .nextRelease.txt
       publishCmd: |
         if [[ "${nextRelease.version}" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]; then
           echo "Publishing ${nextRelease.version} as release"
