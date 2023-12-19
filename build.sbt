@@ -1,9 +1,9 @@
-ThisBuild / version := "0.4.0"
+ThisBuild / version := "0.5.0"
 ThisBuild / versionScheme := Some("semver-spec")
 ThisBuild / organization := "com.alelk.pws"
 ThisBuild / organizationName := "Alex Elkin"
 
-ThisBuild / scalaVersion := "3.2.1"
+ThisBuild / scalaVersion := "3.3.1"
 
 lazy val root = (project in file("."))
   .settings(
