@@ -1,0 +1,41 @@
+branches:
+  # release branch
+  - main
+
+  - name: feature/javaapi
+
+  # maintenance branch
+  - name: '+([0-9])?(.{+([0-9]),x}).x'
+
+  # prerelease branch
+  - name: next
+    prerelease: rc
+    channel: '${name}'
+
+
+tagFormat: v${version}
+
+plugins:
+  - '@semantic-release/commit-analyzer'
+  - '@semantic-release/release-notes-generator'
+  - - '@semantic-release/changelog'
+    - changelogFile: CHANGELOG.md
+    - changelogTitle: '# PWS Library Manager v1 Changelog'
+  - - '@semantic-release/exec'
+    - analyzeCommitsCmd: |
+        echo "Last release: ${lastRelease.version}"
+        echo "${lastRelease.version}" > .lastRelease.txt
+    - verifyReleaseCmd: |
+        echo "Next release: ${nextRelease.version}"
+        echo "${nextRelease.version}" > . nextRelease.txt
+    - publishCmd: |
+        if [[ ${nextRelease.version} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Publishing ${nextRelease.version} as release"
+          echo "${lastRelease.version}" > app.version
+        elif [[ ${nextRelease.version} =~ ^[0-9]+\.[0-9]+\.[0-9]+-.+$ ]]; then
+          echo "Publishing ${nextRelease.version} as snapshot"
+          echo "${nextRelease.version%-*}-SNAPSHOT" > app.version
+          sbt publish
+        else
+          echo "No release published"
+        fi
