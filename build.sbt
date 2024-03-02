@@ -17,8 +17,16 @@ lazy val root = (project in file("."))
 // xml
 projectDependencies += "com.github.geirolz" %% "advxml-core" % "2.5.1"
 
+// yaml
+libraryDependencies += "io.circe" %% "circe-yaml" % "0.14.2"
+libraryDependencies ++= Seq(
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % "0.14.2")
+
 // logging
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.4"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.14"
 libraryDependencies += "org.slf4j" % "slf4j-simple" % "2.0.3"
 
 // test dependencies
@@ -26,7 +34,6 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14" % "test"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
 libraryDependencies += "com.github.dwickern" %% "scala-nameof" % "4.0.0" % "test"
 libraryDependencies += "io.lemonlabs" %% "scala-uri" % "4.0.3"
-
 
 publishTo := {
   val github = "https://maven.pkg.github.com/alelk/pws-v1x-library-manager"

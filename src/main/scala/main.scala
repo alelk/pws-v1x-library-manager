@@ -7,8 +7,6 @@ import io.lemonlabs.uri.Url
 import java.io.File
 import cats.implicits.*
 
-import java.net.URI
-
 
 val pwsLibLoader = new PwsLibraryV1xLoader {}
 @main
