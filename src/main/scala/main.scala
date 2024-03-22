@@ -1,32 +1,27 @@
 package com.alelk.pws.library_manager
 
-import advxml.data.ValidatedNelThrow
+import validator.PwsLibraryV1xValidator
+
 import cats.data.Validated.*
 import io.lemonlabs.uri.Url
 
 import java.io.File
-import cats.implicits.*
 
+val pwsLibraryValidator = new PwsLibraryV1xValidator {}
 
-val pwsLibLoader = new PwsLibraryV1xLoader {}
 @main
 def main(args: String*): Unit = {
   args.toList match
     case List("validate", filename) =>
       val file = File(".").toURI.resolve(filename).toURL
       println(s"Analyse PWS library $file")
-      val result: ValidatedNelThrow[Boolean] = pwsLibLoader.withLibrary(Url.parse(file.toString)) { lib =>
-        lib.books.andThen { books =>
-          books.map { book =>
-            book.psalms.map { psalms =>
-              psalms.forall(!_.name.isBlank)
-            }.forall(_ == true)
-          }.forall(_ == true).valid
-        }
-      }
+      val result = pwsLibraryValidator.validateLibrary(Url.parse(file.toString))
       result match
-        case Valid(true) => println("Library valid")
-        case Valid(false) => System.err.println("Library is invalid")
+        case Valid(List()) => println("Library valid")
+        case Valid(errors) => {
+          System.err.println("Library is invalid")
+          errors.foreach(e => System.err.println(e))
+        }
         case Invalid(errors) =>
           System.err.println(s"Error when loading library: \n  ${errors.map(_.getMessage).toList.mkString("\n  ")}")
     case List("--help") =>
