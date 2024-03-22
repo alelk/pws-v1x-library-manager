@@ -5,7 +5,6 @@ import xml_support.{PsalmNumberXmlConverter, PsalmPartXmlConverter, PsalmXmlConv
 
 import advxml.data.*
 import advxml.implicits.*
-import advxml.transform.XmlZoom.*
 import cats.syntax.all.*
 import io.lemonlabs.uri.Url
 
@@ -39,8 +38,4 @@ trait PwsLibraryV1xLoader extends LibraryInfoXmlConverter {
       .andThen { libInfo =>
         f(Library(libInfo, url))
       }
-}
-
-object PwsLibraryHelper extends PwsLibraryV1xLoader {
-  def parseUrl(url: String): Url = Url.parse(url)
 }

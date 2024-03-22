@@ -8,12 +8,10 @@ import advxml.implicits.*
 import cats.data.Validated.Valid
 import com.github.dwickern.macros.NameOf.*
 import io.lemonlabs.uri.RelativeUrl
-import org.scalactic.PrettyPair
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.*
 
 import java.util.Locale
-import scala.xml.PrettyPrinter
 
 class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with BookInfoXmlConverter {
 
