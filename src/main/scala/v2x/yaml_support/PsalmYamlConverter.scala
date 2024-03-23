@@ -7,6 +7,8 @@ import io.circe.*
 import io.circe.generic.semiauto.*
 import io.circe.syntax.*
 
+import scala.collection.immutable.TreeMap
+
 trait PsalmYamlConverter {
 
   implicit protected lazy val psalmNumberListEncoder: Encoder[List[PsalmNumber]] = (ns: List[PsalmNumber]) =>
@@ -16,6 +18,8 @@ trait PsalmYamlConverter {
     Json.fromString {
       val verses = ps.filter(_.isInstanceOf[PsalmVerse]).sortBy(_.numbers.min).zipWithIndex
       val choruses = ps.filter(_.isInstanceOf[PsalmChorus]).sortBy(_.numbers.min).zipWithIndex
+      val versesRepeated = verses.exists(_._1.numbers.size > 1)
+      val singleChorus = choruses.size == 1
       (verses ++ choruses).flatMap { case (part, partNum) =>
           part.numbers.map { num => (num, (part, partNum)) }
         }.sortBy(_._1)
@@ -25,10 +29,25 @@ trait PsalmYamlConverter {
           case (result, (p, num)) => result :+ ((p, num, true))
         }
         .map {
-          case (PsalmVerse(_, text), partNum, true) => s"[Verse ${partNum + 1}]\n$text"
-          case (_: PsalmVerse, partNum, false) => s"[Verse ${partNum + 1}]"
-          case (PsalmChorus(_, text), partNum, true) => s"[Chorus ${partNum + 1}]\n$text"
-          case (_: PsalmChorus, partNum, false) => s"[Chorus ${partNum + 1}]"
+          case (PsalmVerse(_, text), partNum, true) if versesRepeated =>
+            // if at least one psalm verse is repeated in psalm, then add "Verse" prefix for each verse
+            s"Verse ${partNum + 1}.\n$text"
+          case (PsalmVerse(_, text), partNum, true) =>
+            // if psalm verses are never repeated, then print only psalm part number (skip "Verse" prefix)
+            s"${partNum + 1}.\n$text"
+          case (_: PsalmVerse, partNum, false) =>
+            // when second occurs of psalm part
+            s"[Verse ${partNum + 1}]"
+          case (PsalmChorus(_, text), partNum, true) if singleChorus =>
+            // if only one chorus in psalm, then skip chorus number
+            s"Chorus.\n$text"
+          case (PsalmChorus(_, text), partNum, true) =>
+            // if more than one chorus in psalm, then print chorus number
+            s"Chorus ${partNum + 1}.\n$text"
+          case (_: PsalmChorus, partNum, false) if singleChorus =>
+            s"[Chorus]"
+          case (_: PsalmChorus, partNum, false) =>
+            s"[Chorus ${partNum + 1}]"
         }.mkString("\n\n")
     }
 
@@ -40,6 +59,17 @@ trait PsalmYamlConverter {
 
   implicit protected lazy val tonalityListEncoder: Encoder[List[Tonality]] = (ts: List[Tonality]) => ts.map(_.value).asJson
 
-  implicit lazy val psalmYamlEncoder: Encoder[Psalm] = deriveEncoder[Psalm]
+  implicit lazy val psalmYamlEncoder: Encoder[Psalm] = (p: Psalm) =>
+    Json.fromFields(List(
+      "name" -> Some(p.name.asJson),
+      "numbers" -> Some(p.numbers.asJson),
+      "version" -> Some(p.version.asJson),
+      "text" -> Some(p.text.asJson),
+      "tonalities" -> (if (p.tonalities.isEmpty) None else Some(p.tonalities.asJson)),
+      "references" -> (if (p.references.isEmpty) None else Some(p.references.asJson)),
+      "author" -> p.author.map(_.asJson),
+      "composer" -> p.composer.map(_.asJson),
+      "translator" -> p.translator.map(_.asJson),
+    ).collect { case (k, Some(v)) => (k, v) })
 
 }

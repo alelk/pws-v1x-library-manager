@@ -9,6 +9,7 @@ import advxml.implicits.*
 import cats.data.Validated.{Invalid, Valid}
 import cats.syntax.all.*
 
+import java.util.Locale
 import scala.xml.{NodeSeq, Utility}
 
 trait PsalmXmlConverter {
@@ -49,7 +50,7 @@ trait PsalmXmlConverter {
       $(psalm).author.content.as[Option[String]].valid,
       $(psalm).translator.content.as[Option[String]].valid,
       $(psalm).composer.content.as[Option[String]].valid
-      ).mapN(Psalm.apply)
+    ).mapN(Psalm.apply)
   }
 
   implicit lazy val psalmEncoder: XmlEncoder[Psalm] = XmlEncoder.of { psalm =>

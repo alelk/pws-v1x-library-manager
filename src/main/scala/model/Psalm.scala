@@ -1,6 +1,8 @@
 package com.alelk.pws.library_manager
 package model
 
+import java.util.Locale
+
 case class Psalm(version: String,
                  name: String,
                  numbers: List[PsalmNumber],
