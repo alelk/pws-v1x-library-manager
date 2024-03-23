@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package model
 
-case class Psalm(version: String,
+case class Psalm(version: Version,
                  name: String,
                  numbers: List[PsalmNumber],
                  text: List[PsalmPart],

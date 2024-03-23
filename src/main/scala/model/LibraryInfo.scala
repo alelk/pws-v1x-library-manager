@@ -5,5 +5,5 @@ import io.lemonlabs.uri.RelativeUrl
 
 case class BookRef(preference: Int, reference: RelativeUrl)
 
-case class LibraryInfo(version: String,
+case class LibraryInfo(version: Version,
                        bookRefs: List[BookRef])

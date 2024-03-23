@@ -1,15 +1,15 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{Psalm, PsalmNumber, PsalmPart, Reference, Tonality}
+import model.*
 
-import advxml.transform.XmlZoom.*
 import advxml.data.*
 import advxml.implicits.*
-import cats.data.Validated.{Invalid, Valid}
+import advxml.transform.XmlZoom.*
 import cats.syntax.all.*
 
-import scala.xml.{NodeSeq, Utility}
+import scala.util.Try
+import scala.xml.NodeSeq
 
 trait PsalmXmlConverter {
   this: PsalmNumberXmlConverter with PsalmPartXmlConverter with ReferenceXmlConverter =>
@@ -26,7 +26,7 @@ trait PsalmXmlConverter {
 
   implicit lazy val psalmDecoder: XmlDecoder[Psalm] = XmlDecoder.of { psalm =>
     (
-      $(psalm).attr("version").asValidated[String],
+      $(psalm).attr("version").asValidated[String].andThen(v => if (v.toLowerCase == "null") Version("0.1").valid else Try(Version.apply(v)).toValidated.toValidatedNel),
       $(psalm).attr("name").asValidated[String],
       $(psalm).numbers.number.run[ValidatedNelThrow].andThen { psalmNumbers =>
         psalmNumbers.map(_.asValidated[PsalmNumber]).toList.sequence
@@ -49,12 +49,12 @@ trait PsalmXmlConverter {
       $(psalm).author.content.as[Option[String]].valid,
       $(psalm).translator.content.as[Option[String]].valid,
       $(psalm).composer.content.as[Option[String]].valid
-      ).mapN(Psalm.apply)
+    ).mapN(Psalm.apply)
   }
 
   implicit lazy val psalmEncoder: XmlEncoder[Psalm] = XmlEncoder.of { psalm =>
     // @formatter:off
-    <psalm version={psalm.version} name={psalm.name}>
+    <psalm version={psalm.version.toString} name={psalm.name}>
       <numbers>
         {psalm.numbers.map(_.encode)}
       </numbers>

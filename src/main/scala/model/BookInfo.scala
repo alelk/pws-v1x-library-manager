@@ -3,16 +3,16 @@ package model
 
 import io.lemonlabs.uri.RelativeUrl
 
-import java.util.Locale
+import java.util.{Date, Locale}
 
-case class BookInfo(version: String,
+case class BookInfo(version: Version,
                     name: String,
                     language: Locale,
                     displayName: String,
                     displayShortName: String,
                     edition: String,
                     psalmRefs: List[RelativeUrl],
-                    releaseDate: Option[String] = None,
+                    releaseDate: Option[Date] = None,
                     description: Option[String] = None,
                     preface: Option[String] = None,
                     creators: List[String] = Nil,

@@ -1,0 +1,27 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run all tests" type="ScalaTestRunConfiguration" factoryName="ScalaTest" show_console_on_std_err="false" show_console_on_std_out="false">
+    <module name="pws-library-manager-v1x" />
+    <option name="allowRunningInParallel" value="false" />
+    <option name="projectPathOnTarget" />
+    <option name="selectedOptions">
+      <list />
+    </option>
+    <option name="testKind" value="All in package" />
+    <option name="classBuf">
+      <list>
+        <option value="com.alelk.pws.library_manager.PwsLibraryV1xLoaderTest" />
+        <option value="com.alelk.pws.library_manager.v2x.yaml_support.PsalmV2YamlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.PsalmXmlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.BookInfoXmlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.PsalmPartXmlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.ReferenceXmlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.LibraryInfoXmlConverterTest" />
+        <option value="com.alelk.pws.library_manager.xml_support.PsalmNumberXmlConverterTest" />
+      </list>
+    </option>
+    <option name="shortenClasspath" value="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -12,7 +12,6 @@ import io.lemonlabs.uri.Url
 
 trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
 
-  //private implicit val booleanSemigroup: Semigroup[Boolean] = Semigroup.instance(_ && _)
   implicit val booleanMonoid: Monoid[Boolean] = new Monoid[Boolean] {
     def combine(x: Boolean, y: Boolean): Boolean = x && y
     def empty: Boolean = true
@@ -22,7 +21,7 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
     withLibrary(library) { lib =>
       lib.books.map { books =>
         books.map { book =>
-            validateBook(book, book.url.toRelativeUrl.path.toString)
+            validateBook(book, book.url.path.parts.lastOption.getOrElse(book.info.displayShortName))
           }.combineAll
           .leftMap(_.toList)
           .leftSequence
@@ -33,16 +32,16 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
   private def validateBook(book: Book, address: String): ValidatedNel[String, Boolean] = {
     List(
       Either.cond(book.psalms.nonEmpty, true, "no psalms").toValidatedNel,
-      book.psalms.andThen { psalms =>
+      book.psalms.leftMap(_.map(e => e.getMessage)).andThen { psalms =>
         psalms.map(validatePsalm(_, address)).combineAll
       }
-    ).combineAll.leftMap(_.map(msg => s"Book $address has wrong data: $msg"))
+    ).combineAll.leftMap(_.map(msg => s"Book $address: $msg"))
   }
 
   private def validatePsalm(psalm: Psalm, address: String): ValidatedNel[String, Boolean] = {
     List(
       Either.cond(psalm.name.nonEmpty, true, "name is empty").toValidatedNel,
-      Either.cond(psalm.version.nonEmpty, true, "version is empty").toValidatedNel,
+      Either.cond(psalm.version.major <= 2, true, "major version is greater than 2").toValidatedNel,
       Either.cond(psalm.numbers.nonEmpty, true, "no psalm numbers").toValidatedNel,
       psalm.numbers.map { num =>
         (

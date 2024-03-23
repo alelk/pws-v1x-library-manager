@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{BibleRef, Psalm, PsalmChorus, PsalmNumber, PsalmRef, PsalmRefReason, PsalmVerse, Tonality}
+import model.{BibleRef, Psalm, PsalmChorus, PsalmNumber, PsalmRef, PsalmRefReason, PsalmVerse, Tonality, Version}
 
 import advxml.data.ValidatedNelThrow
 import advxml.implicits.*
@@ -20,7 +20,7 @@ class PsalmXmlConverterTest
 
   nameOf(psalmDecoder) should "parse psalm from XML content" in {
     val xml =
-      <psalm version="1.2.3" name="Psalm 1">
+      <psalm version="1.2" name="Psalm 1">
         <numbers>
           <number edition="PV3300">100</number>
           <number edition="PV1000">220</number>
@@ -56,7 +56,7 @@ class PsalmXmlConverterTest
 
     val Valid(psalm) = xml.decode[Psalm]
     psalm.name shouldBe "Psalm 1"
-    psalm.version shouldBe "1.2.3"
+    psalm.version shouldBe Version("1.2")
     psalm.numbers should have length 2
     val List(number1, number2) = psalm.numbers
     number1.bookEdition shouldBe "PV3300"
@@ -83,7 +83,7 @@ class PsalmXmlConverterTest
   nameOf(psalmEncoder) should "serialize psalm to XML" in {
     val actual =
       Psalm(
-        version = "1.2.0",
+        version = Version("1.2"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("PV3300", 123), PsalmNumber("PV2000", 10)),
         tonalities = List(Tonality("a-major"), Tonality("c-major")),
@@ -105,7 +105,7 @@ class PsalmXmlConverterTest
 
     val expected =
     // @formatter:off
-      <psalm version="1.2.0" name="Psalm Name">
+      <psalm version="1.2" name="Psalm Name">
         <numbers>
           <number edition="PV3300">123</number>
           <number edition="PV2000">10</number>
@@ -136,7 +136,7 @@ class PsalmXmlConverterTest
   classOf[PsalmXmlConverter].getSimpleName should "convert Psalm to XML and parse it back" in {
     val expected =
       Psalm(
-        version = "1.1.1",
+        version = Version("1.1"),
         name = "Name",
         numbers = List(PsalmNumber("PV110", 1), PsalmNumber("PV2", 2)),
         tonalities = List(Tonality("A-major"), Tonality("c-minor")),
