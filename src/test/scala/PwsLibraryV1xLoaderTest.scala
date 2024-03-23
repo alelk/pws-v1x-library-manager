@@ -15,7 +15,8 @@ class PwsLibraryV1xLoaderTest extends AnyFlatSpec with should.Matchers with PwsL
         classOf[PwsLibraryV1xLoaderTest].getClassLoader
           .getResource("library-examples-full/content-ru.pwslib").toString)
     val Valid(resultPsalm) = withLibrary(libFile) { lib =>
-      lib.info.version shouldNot have length 0
+      lib.info.version.major shouldBe 1
+      lib.info.version.minor shouldBe 2
       lib.books.andThen { books =>
         books should have length 2
         val List(book1, book2) = books

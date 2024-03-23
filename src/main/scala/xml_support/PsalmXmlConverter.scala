@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{Psalm, PsalmNumber, PsalmPart, Reference, Tonality}
+import model.{Psalm, PsalmNumber, PsalmPart, Reference, Tonality, Version}
 
 import advxml.transform.XmlZoom.*
 import advxml.data.*
@@ -27,7 +27,7 @@ trait PsalmXmlConverter {
 
   implicit lazy val psalmDecoder: XmlDecoder[Psalm] = XmlDecoder.of { psalm =>
     (
-      $(psalm).attr("version").asValidated[String],
+      $(psalm).attr("version").asValidated[String].map(Version.apply),
       $(psalm).attr("name").asValidated[String],
       $(psalm).numbers.number.run[ValidatedNelThrow].andThen { psalmNumbers =>
         psalmNumbers.map(_.asValidated[PsalmNumber]).toList.sequence
@@ -55,7 +55,7 @@ trait PsalmXmlConverter {
 
   implicit lazy val psalmEncoder: XmlEncoder[Psalm] = XmlEncoder.of { psalm =>
     // @formatter:off
-    <psalm version={psalm.version} name={psalm.name}>
+    <psalm version={psalm.version.toString} name={psalm.name}>
       <numbers>
         {psalm.numbers.map(_.encode)}
       </numbers>

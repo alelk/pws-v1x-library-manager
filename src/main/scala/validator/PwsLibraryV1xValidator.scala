@@ -12,7 +12,6 @@ import io.lemonlabs.uri.Url
 
 trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
 
-  //private implicit val booleanSemigroup: Semigroup[Boolean] = Semigroup.instance(_ && _)
   implicit val booleanMonoid: Monoid[Boolean] = new Monoid[Boolean] {
     def combine(x: Boolean, y: Boolean): Boolean = x && y
     def empty: Boolean = true
@@ -42,7 +41,7 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
   private def validatePsalm(psalm: Psalm, address: String): ValidatedNel[String, Boolean] = {
     List(
       Either.cond(psalm.name.nonEmpty, true, "name is empty").toValidatedNel,
-      Either.cond(psalm.version.nonEmpty, true, "version is empty").toValidatedNel,
+      Either.cond(psalm.version.major <= 2, true, "major version is greater than 2").toValidatedNel,
       Either.cond(psalm.numbers.nonEmpty, true, "no psalm numbers").toValidatedNel,
       psalm.numbers.map { num =>
         (
