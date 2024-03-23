@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.{BookRef, LibraryInfo}
+import model.{BookRef, LibraryInfo, Version}
 
 import advxml.data.*
 import advxml.implicits.*
@@ -22,7 +22,7 @@ trait LibraryInfoXmlConverter {
 
   implicit lazy val libraryInfoXmlDecoder: XmlDecoder[LibraryInfo] = XmlDecoder.of { libInfo =>
     (
-      $(libInfo).attr("version").asValidated[String],
+      $(libInfo).attr("version").asValidated[String].map(Version.apply),
       $(libInfo).books.ref.run[ValidatedNelThrow].andThen { refs =>
         refs.map(_.decode[BookRef]).toList.sequence
       }
@@ -37,7 +37,7 @@ trait LibraryInfoXmlConverter {
 
   implicit lazy val libraryInfoXmlEncoder: XmlEncoder[LibraryInfo] = XmlEncoder.of { libInfo =>
     // @formatter:off
-    <pwslibrary version={libInfo.version}>
+    <pwslibrary version={libInfo.version.toString}>
       <books>
         {libInfo.bookRefs.map(_.encode)}
       </books>

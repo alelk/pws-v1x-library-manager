@@ -29,7 +29,7 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
       // @formatter:on
 
     val Valid(libInfo) = xml.decode[LibraryInfo]
-    libInfo.version shouldBe "1.2"
+    libInfo.version shouldBe Version("1.2")
     libInfo.bookRefs should have length 2
     val List(ref1, ref2) = libInfo.bookRefs
     ref1.preference shouldBe 40
@@ -41,7 +41,7 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
   nameOf(libraryInfoXmlEncoder) should "serialize library info to XML" in {
     val actual =
       LibraryInfo(
-        version = "1.2",
+        version = Version("1.2"),
         bookRefs = List(
           BookRef(40, RelativeUrl.parse("books/PV3300.pwsbk")),
           BookRef(25, RelativeUrl.parse("books/PV2001.pwsbk")),
@@ -62,7 +62,7 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
   classOf[LibraryInfoXmlConverter].getSimpleName should "convert library info to XML and parse it back" in {
     val expected =
       LibraryInfo(
-        version = "1.2",
+        version = Version("1.2"),
         bookRefs = List(
           BookRef(40, RelativeUrl.parse("books/PV3300.pwsbk")),
           BookRef(25, RelativeUrl.parse("books/PV2001.pwsbk")),

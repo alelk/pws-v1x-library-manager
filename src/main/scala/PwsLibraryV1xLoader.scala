@@ -26,7 +26,7 @@ class Book private[library_manager](val info: BookInfo, val url: Url)
   lazy val psalms: ValidatedNelThrow[List[Psalm]] =
     info.psalmRefs.map { ref =>
       val psalmUrl = Url.parse(URI.create(url.toString).resolve(ref.toString).toString)
-      XML.load(psalmUrl.toString).decode[Psalm]
+      XML.load(psalmUrl.toString).decode[Psalm].leftMap(_.map(e => UnsupportedOperationException(s"unable to parse psalm $ref: ${e.getMessage}")))
     }.sequence
 }
 
