@@ -2,6 +2,7 @@ package com.alelk.pws.library_manager
 package v2x.yaml_support
 
 import model.*
+import v2x.model.PsalmV2
 
 import com.github.dwickern.macros.NameOf.nameOf
 import io.circe.syntax.*
@@ -10,11 +11,12 @@ import io.circe.yaml.Printer.StringStyle
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
-class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with PsalmYamlConverter {
+class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with PsalmV2YamlConverter {
 
   nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
-    val p: Psalm =
-      Psalm(
+    val p =
+      PsalmV2(
+        id = 1,
         version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
@@ -37,6 +39,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
 
     val expectedYaml =
       s"""
+         |id: 1
          |translator: Translator
          |numbers:
          |  book1: 1
@@ -82,8 +85,9 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
   }
 
   nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
-    val p: Psalm =
-      Psalm(
+    val p =
+      PsalmV2(
+        id = 2,
         version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
@@ -101,6 +105,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
 
     val expectedYaml =
       s"""
+         |id: 2
          |name: Psalm Name
          |numbers:
          |  book1: 1

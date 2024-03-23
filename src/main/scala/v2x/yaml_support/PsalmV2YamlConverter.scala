@@ -2,14 +2,13 @@ package com.alelk.pws.library_manager
 package v2x.yaml_support
 
 import model.*
+import v2x.model.PsalmV2
 
 import io.circe.*
 import io.circe.generic.semiauto.*
 import io.circe.syntax.*
 
-import scala.collection.immutable.TreeMap
-
-trait PsalmYamlConverter {
+trait PsalmV2YamlConverter {
 
   implicit protected lazy val psalmNumberListEncoder: Encoder[List[PsalmNumber]] = (ns: List[PsalmNumber]) =>
     Json.obj(ns.map { case PsalmNumber(book, num) => (book, num.asJson) }: _*)
@@ -59,8 +58,9 @@ trait PsalmYamlConverter {
 
   implicit protected lazy val tonalityListEncoder: Encoder[List[Tonality]] = (ts: List[Tonality]) => ts.map(_.value).asJson
 
-  implicit lazy val psalmYamlEncoder: Encoder[Psalm] = (p: Psalm) =>
+  implicit lazy val psalmYamlEncoder: Encoder[PsalmV2] = (p: PsalmV2) =>
     Json.fromFields(List(
+      "id" -> Some(p.id.asJson),
       "name" -> Some(p.name.asJson),
       "numbers" -> Some(p.numbers.asJson),
       "version" -> Some(p.version.toString.asJson),
