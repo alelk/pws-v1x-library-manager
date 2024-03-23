@@ -21,7 +21,7 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
     withLibrary(library) { lib =>
       lib.books.map { books =>
         books.map { book =>
-            validateBook(book, book.url.toRelativeUrl.path.toString)
+            validateBook(book, book.url.path.parts.lastOption.getOrElse(book.info.displayShortName))
           }.combineAll
           .leftMap(_.toList)
           .leftSequence
@@ -32,10 +32,10 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
   private def validateBook(book: Book, address: String): ValidatedNel[String, Boolean] = {
     List(
       Either.cond(book.psalms.nonEmpty, true, "no psalms").toValidatedNel,
-      book.psalms.andThen { psalms =>
+      book.psalms.leftMap(_.map(e => e.getMessage)).andThen { psalms =>
         psalms.map(validatePsalm(_, address)).combineAll
       }
-    ).combineAll.leftMap(_.map(msg => s"Book $address has wrong data: $msg"))
+    ).combineAll.leftMap(_.map(msg => s"Book $address: $msg"))
   }
 
   private def validatePsalm(psalm: Psalm, address: String): ValidatedNel[String, Boolean] = {
