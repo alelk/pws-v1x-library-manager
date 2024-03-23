@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package xml_support
 
-import model.BookInfo
+import model.{BookInfo, Version}
 
 import advxml.data.*
 import advxml.implicits.*
@@ -9,15 +9,18 @@ import advxml.transform.XmlZoom.*
 import cats.syntax.all.*
 import io.lemonlabs.uri.RelativeUrl
 
-import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.{Date, Locale}
 import scala.util.Try
 import scala.xml.NodeSeq
+
+val bookDateFormat = SimpleDateFormat("yyyy")
 
 trait BookInfoXmlConverter {
 
   implicit lazy val bookInfoXmlDecoder: XmlDecoder[BookInfo] = XmlDecoder.of { book =>
     (
-      $(book).attr("version").asValidated[String],
+      $(book).attr("version").asValidated[String].map(Version.apply),
       $(book).attr("name").asValidated[String],
       $(book).attr("language").asValidated[String].andThen { l =>
         ValidatedNelThrow.fromTry {
@@ -37,7 +40,7 @@ trait BookInfoXmlConverter {
         }
         case None => Nil.valid
       },
-      $(book).releaseDate.content.as[Option[String]].map(_.trim).valid,
+      $(book).releaseDate.content.as[Option[String]].map(_.trim).map(bookDateFormat.parse).valid,
       $(book).description.content.as[Option[String]].map(_.trim).valid,
       $(book).preface.content.as[Option[String]].map(_.trim).valid,
       $(book).creators.run[Option] match {
@@ -57,11 +60,11 @@ trait BookInfoXmlConverter {
 
   implicit lazy val bookInfoXmlEncoder: XmlEncoder[BookInfo] = XmlEncoder.of { book =>
     // @formatter:off
-    <book version={book.version} name={book.name} language={book.language.toString}>
+    <book version={book.version.toString} name={book.name} language={book.language.toString}>
       <displayName>{book.displayName}</displayName>
       <displayShortName>{book.displayShortName}</displayShortName>
       <edition>{book.edition}</edition>
-      {book.releaseDate.map(v => <releaseDate>{v}</releaseDate>).getOrElse(NodeSeq.Empty)}
+      {book.releaseDate.map(v => <releaseDate>{bookDateFormat.format(v)}</releaseDate>).getOrElse(NodeSeq.Empty)}
       {book.description.map(v => <description>{v}</description>).getOrElse(NodeSeq.Empty)}
       {book.preface.map(v => <preface>{v}</preface>).getOrElse(NodeSeq.Empty)}
       <creators>

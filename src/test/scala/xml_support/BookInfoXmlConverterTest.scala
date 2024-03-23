@@ -11,13 +11,14 @@ import io.lemonlabs.uri.RelativeUrl
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.*
 
-import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.{Date, Locale}
 
 class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with BookInfoXmlConverter {
 
   nameOf(bookInfoXmlDecoder) should "parse book info from XML content" in {
     val xml =
-    // @formatter:off
+      // @formatter:off
       <book version="2.01" name="Book Name" language="ru">
         <displayName>Book Display Name</displayName>
         <displayShortName>PV-2001</displayShortName>
@@ -43,13 +44,13 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
       // @formatter:on
 
     val Valid(bookInfo) = xml.decode[BookInfo]
-    bookInfo.version shouldBe "2.01"
+    bookInfo.version shouldBe Version("2.01")
     bookInfo.name shouldBe "Book Name"
     bookInfo.language shouldBe Locale.of("ru")
     bookInfo.displayName shouldBe "Book Display Name"
     bookInfo.displayShortName shouldBe "PV-2001"
     bookInfo.edition shouldBe "PV2001"
-    bookInfo.releaseDate shouldBe Some("1999")
+    bookInfo.releaseDate shouldBe Some(SimpleDateFormat("yyyy").parse("1999"))
     bookInfo.description shouldBe Some("Some Description")
     bookInfo.preface shouldBe Some("Preface Text")
     bookInfo.creators shouldBe List("Creator 1", "Creator 2")
@@ -60,13 +61,13 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
   nameOf(bookInfoXmlEncoder) should "serialize book info to XML" in {
     val actual =
       BookInfo(
-        version = "2.01",
+        version = Version("2.01"),
         name = "Book Name",
         language = Locale.of("ru"),
         displayName = "Book Display Name",
         displayShortName = "PV-2001",
         edition = "PV2001",
-        releaseDate = Some("1999"),
+        releaseDate = Some(SimpleDateFormat("yyyy").parse("1999")),
         description = Some("Some Description"),
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),
@@ -75,8 +76,8 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
       ).encode
 
     val expected =
-    // @formatter:off
-      <book version="2.01" name="Book Name" language="ru">
+      // @formatter:off
+      <book version="2.1" name="Book Name" language="ru">
         <displayName>Book Display Name</displayName>
         <displayShortName>PV-2001</displayShortName>
         <edition>PV2001</edition>
@@ -105,13 +106,13 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
   classOf[BookInfoXmlConverter].getSimpleName should "convert book info to XML and parse it back" in {
     val expected =
       BookInfo(
-        version = "2.01",
+        version = Version("2.01"),
         name = "Book Name",
         language = Locale.of("ru"),
         displayName = "Book Display Name",
         displayShortName = "PV-2001",
         edition = "PV2001",
-        releaseDate = Some("1999"),
+        releaseDate = Some(SimpleDateFormat("yyyy").parse("1999")),
         description = Some("Some Description"),
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),

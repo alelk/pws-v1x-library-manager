@@ -63,7 +63,7 @@ trait PsalmYamlConverter {
     Json.fromFields(List(
       "name" -> Some(p.name.asJson),
       "numbers" -> Some(p.numbers.asJson),
-      "version" -> Some(p.version.asJson),
+      "version" -> Some(p.version.toString.asJson),
       "text" -> Some(p.text.asJson),
       "tonalities" -> (if (p.tonalities.isEmpty) None else Some(p.tonalities.asJson)),
       "references" -> (if (p.references.isEmpty) None else Some(p.references.asJson)),

@@ -15,7 +15,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
   nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
     val p: Psalm =
       Psalm(
-        version = "1",
+        version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
         text = List(
@@ -43,7 +43,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
          |  book2: 2
          |author: Author
          |name: Psalm Name
-         |version: '1'
+         |version: '1.1'
          |text: |-
          |  Verse 1.
          |  Verse 1 Line 1
@@ -84,7 +84,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
   nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
     val p: Psalm =
       Psalm(
-        version = "1",
+        version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
         text = List(
@@ -105,7 +105,7 @@ class PsalmYamlConverterTest extends AnyFlatSpec with should.Matchers with Psalm
          |numbers:
          |  book1: 1
          |  book2: 2
-         |version: '1'
+         |version: '1.1'
          |text: |-
          |  1.
          |  Verse 1 Line 1
