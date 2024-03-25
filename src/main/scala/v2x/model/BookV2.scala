@@ -1,19 +1,19 @@
 package com.alelk.pws.library_manager
 package v2x.model
 
-import model.Psalm
+import model.Version
 
+import java.time.Year
 import java.util.Locale
 
-case class BookV2(version: String,
+case class BookV2(version: Version,
                   name: String,
-                  language: Locale,
+                  locale: Locale,
                   displayName: String,
                   displayShortName: String,
-                  edition: String,
-                  psalmStartId: Int,
-                  psalms: List[Psalm],
-                  releaseDate: Option[String] = None,
+                  signature: String,
+                  psalms: List[PsalmV2],
+                  releaseDate: Option[Year] = None,
                   description: Option[String] = None,
                   preface: Option[String] = None,
                   creators: List[String] = Nil,

@@ -11,8 +11,8 @@ import io.lemonlabs.uri.RelativeUrl
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.*
 
-import java.text.SimpleDateFormat
-import java.util.{Date, Locale}
+import java.time.Year
+import java.util.Locale
 
 class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with BookInfoXmlConverter {
 
@@ -50,7 +50,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
     bookInfo.displayName shouldBe "Book Display Name"
     bookInfo.displayShortName shouldBe "PV-2001"
     bookInfo.edition shouldBe "PV2001"
-    bookInfo.releaseDate shouldBe Some(SimpleDateFormat("yyyy").parse("1999"))
+    bookInfo.releaseDate shouldBe Some(Year.parse("1999"))
     bookInfo.description shouldBe Some("Some Description")
     bookInfo.preface shouldBe Some("Preface Text")
     bookInfo.creators shouldBe List("Creator 1", "Creator 2")
@@ -67,7 +67,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
         displayName = "Book Display Name",
         displayShortName = "PV-2001",
         edition = "PV2001",
-        releaseDate = Some(SimpleDateFormat("yyyy").parse("1999")),
+        releaseDate = Some(Year.parse("1999")),
         description = Some("Some Description"),
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),
@@ -112,7 +112,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
         displayName = "Book Display Name",
         displayShortName = "PV-2001",
         edition = "PV2001",
-        releaseDate = Some(SimpleDateFormat("yyyy").parse("1999")),
+        releaseDate = Some(Year.parse("1999")),
         description = Some("Some Description"),
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),
