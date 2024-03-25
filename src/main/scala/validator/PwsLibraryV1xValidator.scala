@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 package validator
 
-import model.{BibleRef, Psalm, Reference}
+import model.{BibleRef, BookInfo, Psalm, Reference}
 
 import advxml.data.ValidatedNelThrow
 import cats.Monoid
@@ -14,6 +14,7 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
 
   implicit val booleanMonoid: Monoid[Boolean] = new Monoid[Boolean] {
     def combine(x: Boolean, y: Boolean): Boolean = x && y
+
     def empty: Boolean = true
   }
 
@@ -33,12 +34,12 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
     List(
       Either.cond(book.psalms.nonEmpty, true, "no psalms").toValidatedNel,
       book.psalms.leftMap(_.map(e => e.getMessage)).andThen { psalms =>
-        psalms.map(validatePsalm(_, address)).combineAll
+        psalms.map(validatePsalm(_, address, book.info)).combineAll
       }
     ).combineAll.leftMap(_.map(msg => s"Book $address: $msg"))
   }
 
-  private def validatePsalm(psalm: Psalm, address: String): ValidatedNel[String, Boolean] = {
+  private def validatePsalm(psalm: Psalm, address: String, bookInfo: BookInfo): ValidatedNel[String, Boolean] = {
     List(
       Either.cond(psalm.name.nonEmpty, true, "name is empty").toValidatedNel,
       Either.cond(psalm.version.major <= 2, true, "major version is greater than 2").toValidatedNel,
@@ -49,6 +50,7 @@ trait PwsLibraryV1xValidator extends PwsLibraryV1xLoader {
           Either.cond(num.bookEdition.nonEmpty, true, s"wrong book edition for number $num").toValidatedNel
         ).combineAll
       }.combineAll,
+      Either.cond(psalm.numbers.exists(_.bookEdition == bookInfo.edition), true, s"no psalm number for book edition ${bookInfo.edition}").toValidatedNel,
       Either.cond(psalm.text.nonEmpty, true, "no psalm text").toValidatedNel, {
         val ppNums = psalm.text.flatMap(_.numbers)
         val duplicates = ppNums.groupBy(identity).filter(_._2.size > 1).keys

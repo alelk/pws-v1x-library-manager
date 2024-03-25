@@ -58,13 +58,14 @@ trait PsalmV2YamlConverter {
 
   implicit protected lazy val tonalityListEncoder: Encoder[List[Tonality]] = (ts: List[Tonality]) => ts.map(_.value).asJson
 
-  implicit lazy val psalmYamlEncoder: Encoder[PsalmV2] = (p: PsalmV2) =>
+  implicit lazy val psalmV2YamlEncoder: Encoder[PsalmV2] = (p: PsalmV2) =>
     Json.fromFields(List(
       "id" -> Some(p.id.asJson),
       "name" -> Some(p.name.asJson),
       "numbers" -> Some(p.numbers.asJson),
       "version" -> Some(p.version.toString.asJson),
       "text" -> Some(p.text.asJson),
+      "locale" -> Some(p.locale.toString.asJson),
       "tonalities" -> (if (p.tonalities.isEmpty) None else Some(p.tonalities.asJson)),
       "references" -> (if (p.references.isEmpty) None else Some(p.references.asJson)),
       "author" -> p.author.map(_.asJson),
