@@ -10,11 +10,10 @@ import cats.syntax.all.*
 import io.lemonlabs.uri.RelativeUrl
 
 import java.text.SimpleDateFormat
+import java.time.Year
 import java.util.{Date, Locale}
 import scala.util.Try
 import scala.xml.NodeSeq
-
-val bookDateFormat = SimpleDateFormat("yyyy")
 
 trait BookInfoXmlConverter {
 
@@ -40,7 +39,7 @@ trait BookInfoXmlConverter {
         }
         case None => Nil.valid
       },
-      $(book).releaseDate.content.as[Option[String]].map(_.trim).map(bookDateFormat.parse).valid,
+      $(book).releaseDate.content.as[Option[String]].map(_.trim).map(Year.parse).valid,
       $(book).description.content.as[Option[String]].map(_.trim).valid,
       $(book).preface.content.as[Option[String]].map(_.trim).valid,
       $(book).creators.run[Option] match {
@@ -64,7 +63,7 @@ trait BookInfoXmlConverter {
       <displayName>{book.displayName}</displayName>
       <displayShortName>{book.displayShortName}</displayShortName>
       <edition>{book.edition}</edition>
-      {book.releaseDate.map(v => <releaseDate>{bookDateFormat.format(v)}</releaseDate>).getOrElse(NodeSeq.Empty)}
+      {book.releaseDate.map(v => <releaseDate>{v}</releaseDate>).getOrElse(NodeSeq.Empty)}
       {book.description.map(v => <description>{v}</description>).getOrElse(NodeSeq.Empty)}
       {book.preface.map(v => <preface>{v}</preface>).getOrElse(NodeSeq.Empty)}
       <creators>

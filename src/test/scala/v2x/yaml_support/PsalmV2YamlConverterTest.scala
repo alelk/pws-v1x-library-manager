@@ -11,9 +11,11 @@ import io.circe.yaml.Printer.StringStyle
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
+import java.util.Locale
+
 class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with PsalmV2YamlConverter {
 
-  nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
+  nameOf(psalmV2YamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
     val p =
       PsalmV2(
         id = 1,
@@ -25,6 +27,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
           PsalmChorus(Set(2, 4), "Chorus 1 Line 1\nChorus 1 Line 2"),
           PsalmVerse(Set(3, 5), "Verse 2 Line 1\nVerse 2 Line 2"),
           PsalmChorus(Set(6), "Chorus 2 Line 1\nChorus 2 Line 2")),
+        locale = Locale.of("en"),
         references = List(BibleRef("Bible ref 1"), BibleRef("Bible ref 2")),
         tonalities = List(Tonality("tonality 1"), Tonality("tonality 2")),
         author = Some("Author"),
@@ -67,6 +70,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
          |  Chorus 2.
          |  Chorus 2 Line 1
          |  Chorus 2 Line 2
+         |locale: en
          |composer: Composer
          |tonalities:
          |- tonality 1
@@ -84,7 +88,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
     parsed1 shouldBe parsed2
   }
 
-  nameOf(psalmYamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
+  nameOf(psalmV2YamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
     val p =
       PsalmV2(
         id = 2,
@@ -95,7 +99,8 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
           PsalmVerse(Set(1), "Verse 1 Line 1\nVerse 1 Line 2"),
           PsalmChorus(Set(2, 4), "Chorus 2,4 Line 1\nChorus 2,4 Line 2"),
           PsalmVerse(Set(3), "Verse 2 Line 1\nVerse 2 Line 2"),
-          PsalmVerse(Set(5), "Verse 3 Line 1\nVerse 3 Line 2")))
+          PsalmVerse(Set(5), "Verse 3 Line 1\nVerse 3 Line 2")),
+        locale = Locale.of("en"))
 
     val printer = Printer(stringStyle = StringStyle.Plain, preserveOrder = true)
 
@@ -129,6 +134,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
          |  3.
          |  Verse 3 Line 1
          |  Verse 3 Line 2
+         |locale: en
          |""".stripMargin
     val parsed1 = parser.parse(expectedYaml)
     val parsed2 = parser.parse(yaml)

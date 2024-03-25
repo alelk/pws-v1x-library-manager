@@ -2,6 +2,9 @@ package com.alelk.pws.library_manager
 package model
 
 case class Version(major: Int, minor: Int) {
+  require(major >= 0, "Major version must be greater or equal to 0")
+  require(minor >= 0, "Minor version must be greater or equal to 0")
+
   override def toString: String = s"$major.$minor"
 }
 
