@@ -1,14 +1,14 @@
 package com.alelk.pws.library_manager
 
 import model.{BookInfo, LibraryInfo, Psalm}
-import xml_support.{PsalmNumberXmlConverter, PsalmPartXmlConverter, PsalmXmlConverter, ReferenceXmlConverter, *}
+import xml_support.*
 
 import advxml.data.*
 import advxml.implicits.*
 import cats.syntax.all.*
-import io.lemonlabs.uri.Url
+import io.lemonlabs.uri.{RelativeUrl, Url}
 
-import java.net.{URI, URL}
+import java.net.URI
 import scala.xml.XML
 
 class Library private[library_manager](val info: LibraryInfo, val url: Url) extends BookInfoXmlConverter {
@@ -20,13 +20,19 @@ class Library private[library_manager](val info: LibraryInfo, val url: Url) exte
     }.sequence
 }
 
+case class PsalmInfo(relativeUrl: RelativeUrl, resolvedUrl: Url)
+
 class Book private[library_manager](val info: BookInfo, val url: Url)
   extends PsalmXmlConverter with PsalmPartXmlConverter with PsalmNumberXmlConverter with ReferenceXmlConverter {
 
-  lazy val psalms: ValidatedNelThrow[List[Psalm]] =
+  lazy val psalms: ValidatedNelThrow[List[(Psalm, PsalmInfo)]] =
     info.psalmRefs.map { ref =>
       val psalmUrl = Url.parse(URI.create(url.toString).resolve(ref.toString).toString)
-      XML.load(psalmUrl.toString).decode[Psalm].leftMap(_.map(e => UnsupportedOperationException(s"unable to parse psalm $ref: ${e.getMessage}")))
+      XML
+        .load(psalmUrl.toString)
+        .decode[Psalm]
+        .leftMap(_.map(e => UnsupportedOperationException(s"unable to parse psalm $ref: ${e.getMessage}")))
+        .map(_ -> PsalmInfo(ref, psalmUrl))
     }.sequence
 }
 

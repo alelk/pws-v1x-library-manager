@@ -4,15 +4,16 @@ package model
 import io.lemonlabs.uri.RelativeUrl
 
 import java.time.Year
-import java.util.{Date, Locale}
+import java.util.Locale
 
-case class BookInfo(version: Version,
+case class BookInfo(version: Version = Version(0, 1),
                     name: String,
-                    language: Locale,
+                    language: Locale = Locale.forLanguageTag("en"),
                     displayName: String,
                     displayShortName: String,
                     edition: String,
-                    psalmRefs: List[RelativeUrl],
+                    psalmStartId: Int = 1,
+                    psalmRefs: List[RelativeUrl] = Nil,
                     releaseDate: Option[Year] = None,
                     description: Option[String] = None,
                     preface: Option[String] = None,
