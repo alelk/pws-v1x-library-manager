@@ -22,8 +22,8 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
     // @formatter:off
       <pwslibrary version='1.2'>
         <books>
-          <ref preference='40'>books/PV3300.pwsbk</ref>
-          <ref preference='25'>books/PV2001.pwsbk</ref>
+          <ref preference='40'>books/book2.pwsbk</ref>
+          <ref preference='25'>books/book1.pwsbk</ref>
         </books>
       </pwslibrary>
       // @formatter:on
@@ -51,8 +51,8 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
     // @formatter:off
       <pwslibrary version='1.2'>
         <books>
-          <ref preference='40'>books/PV3300.pwsbk</ref>
-          <ref preference='25'>books/PV2001.pwsbk</ref>
+          <ref preference='40'>books/book2.pwsbk</ref>
+          <ref preference='25'>books/book1.pwsbk</ref>
         </books>
       </pwslibrary>
     // @formatter:on
