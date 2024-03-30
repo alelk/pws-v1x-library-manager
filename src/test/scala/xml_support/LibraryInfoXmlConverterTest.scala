@@ -33,9 +33,9 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
     libInfo.bookRefs should have length 2
     val List(ref1, ref2) = libInfo.bookRefs
     ref1.preference shouldBe 40
-    ref1.reference shouldBe RelativeUrl.parse("books/PV3300.pwsbk")
+    ref1.reference shouldBe RelativeUrl.parse("books/book2.pwsbk")
     ref2.preference shouldBe 25
-    ref2.reference shouldBe RelativeUrl.parse("books/PV2001.pwsbk")
+    ref2.reference shouldBe RelativeUrl.parse("books/book1.pwsbk")
   }
 
   nameOf(libraryInfoXmlEncoder) should "serialize library info to XML" in {
@@ -43,8 +43,8 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
       LibraryInfo(
         version = Version("1.2"),
         bookRefs = List(
-          BookRef(40, RelativeUrl.parse("books/PV3300.pwsbk")),
-          BookRef(25, RelativeUrl.parse("books/PV2001.pwsbk")),
+          BookRef(40, RelativeUrl.parse("books/book2.pwsbk")),
+          BookRef(25, RelativeUrl.parse("books/book1.pwsbk")),
         )).encode
 
     val expected =
@@ -64,8 +64,8 @@ class LibraryInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with 
       LibraryInfo(
         version = Version("1.2"),
         bookRefs = List(
-          BookRef(40, RelativeUrl.parse("books/PV3300.pwsbk")),
-          BookRef(25, RelativeUrl.parse("books/PV2001.pwsbk")),
+          BookRef(40, RelativeUrl.parse("books/book2.pwsbk")),
+          BookRef(25, RelativeUrl.parse("books/book1.pwsbk")),
         ))
     val Valid(actual) = expected.encode.normalize.decode[LibraryInfo]
     actual shouldBe expected
