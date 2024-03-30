@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book version="0.01" name=" " language="ru">
+    <displayName> </displayName>
+    <displayShortName> </displayShortName>
+    <edition>b1</edition>
+    <releaseDate>1000</releaseDate>
+    <description> </description>
+    <preface>Book 1 Preface</preface>
+    <editors>
+        <editor> </editor>
+        <editor>Editor 2</editor>
+    </editors>
+    <creators>
+        <creator> </creator>
+        <creator>Creator 2</creator>
+    </creators>
+    <psalmStartId>1</psalmStartId>
+    <psalms>
+        <ref>book1/p1.pslm</ref>
+        <ref>book1/p2.pslm</ref>
+    </psalms>
+</book>

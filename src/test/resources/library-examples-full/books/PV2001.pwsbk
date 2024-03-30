@@ -12,6 +12,7 @@
         <editor>Editor 1</editor>
         <editor>Editor 2</editor>
     </editors>
+    <psalmStartId>1</psalmStartId>
     <psalms>
         <ref>PV2001-psalms/w1094.pslm</ref>
         <ref>PV2001-psalms/w1150.pslm</ref>
