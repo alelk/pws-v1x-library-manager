@@ -3,10 +3,10 @@
     <displayName>Book 2 - 3300</displayName>
     <displayShortName>PV-3300</displayShortName>
     <edition>PV3300</edition>
-    <releaseDate>2008</releaseDate>
+    <releaseDate>2900</releaseDate>
     <description>Description</description>
-    <psalmStartId>1000</psalmStartId>
+    <psalmStartId>2</psalmStartId>
     <psalms>
-        <ref>PV3300-psalms/m1-f1-b1-w1-o1-g205-h131-s247.pslm</ref>
+        <ref>book2/p1.pslm</ref>
     </psalms>
 </book>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<psalm version='2.01' name='1150 name'>
+
+<numbers>
+<number edition="b2">1150</number>
+</numbers>
+
+<tonalities>
+<tonality> </tonality>
+</tonalities>
+<references>
+<psalmref reason="variation" volume="66" edition="b2" number="1150"/>
+<psalmref reason="variation" volume="77" edition="b7" number="1150"/>
+</references>
+
+<text>
+
+<verse number='5,6,7'>
+Verse 1 Line 1
+Verse 1 Line 2
+</verse>
+
+<verse number='5'>
+Verse 2 Line 1
+Verse 2 Line 3
+</verse>
+
+<verse number='7,8'>
+Verse 3,4 Line 1
+Verse 3,4 Line 2
+</verse>
+
+</text>
+</psalm>
