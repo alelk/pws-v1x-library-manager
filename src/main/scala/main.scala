@@ -17,11 +17,9 @@ def main(args: String*): Unit = {
       println(s"Analyse PWS library $file")
       val result = pwsLibraryValidator.validateLibrary(Url.parse(file.toString))
       result match
-        case Valid(List()) => println("Library valid")
-        case Valid(errors) => {
-          System.err.println("Library is invalid")
-          errors.foreach(e => System.err.println(e))
-        }
+        case Valid(Nil) => println("Library valid")
+        case Valid(errors) =>
+          System.err.println(s"Library is invalid: \n  ${errors.mkString("\n  ")}")
         case Invalid(errors) =>
           System.err.println(s"Error when loading library: \n  ${errors.map(_.getMessage).toList.mkString("\n  ")}")
     case List("--help") =>
