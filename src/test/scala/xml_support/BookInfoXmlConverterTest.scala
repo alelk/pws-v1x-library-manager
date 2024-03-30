@@ -36,6 +36,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
           <editor>Editor 1</editor>
           <editor>Editor 2</editor>
         </editors>
+        <psalmStartId>100</psalmStartId>
         <psalms>
           <ref>PV2001-psalms/ref1.pslm</ref>
           <ref>PV2001-psalms/ref2.pslm</ref>
@@ -55,6 +56,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
     bookInfo.preface shouldBe Some("Preface Text")
     bookInfo.creators shouldBe List("Creator 1", "Creator 2")
     bookInfo.editors shouldBe List("Editor 1", "Editor 2")
+    bookInfo.psalmStartId shouldBe 100
     bookInfo.psalmRefs shouldBe List(RelativeUrl.parse("PV2001-psalms/ref1.pslm"), RelativeUrl.parse("PV2001-psalms/ref2.pslm"))
   }
 
@@ -72,6 +74,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),
         editors = List("Editor 1", "Editor 2"),
+        psalmStartId = 100,
         psalmRefs = List(RelativeUrl.parse("PV2001-psalms/ref1.pslm"), RelativeUrl.parse("PV2001-psalms/ref2.pslm"))
       ).encode
 
@@ -94,6 +97,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
           <editor>Editor 1</editor>
           <editor>Editor 2</editor>
         </editors>
+        <psalmStartId>100</psalmStartId>
         <psalms>
           <ref>PV2001-psalms/ref1.pslm</ref>
           <ref>PV2001-psalms/ref2.pslm</ref>
@@ -117,6 +121,7 @@ class BookInfoXmlConverterTest extends AnyFlatSpec with should.Matchers with Boo
         preface = Some("Preface Text"),
         creators = List("Creator 1", "Creator 2"),
         editors = List("Editor 1", "Editor 2"),
+        psalmStartId = 100,
         psalmRefs = List(RelativeUrl.parse("PV2001-psalms/ref1.pslm"), RelativeUrl.parse("PV2001-psalms/ref2.pslm"))
       )
     val Valid(actual) = expected.encode.normalize.decode[BookInfo]

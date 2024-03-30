@@ -31,6 +31,7 @@ trait BookInfoXmlConverter {
       $(book).displayName.content.asValidated[String].map(_.trim),
       $(book).displayShortName.content.asValidated[String].map(_.trim),
       $(book).edition.content.asValidated[String].map(_.trim),
+      $(book).psalmStartId.content.asValidated[Int],
       $(book).psalms.run[Option] match {
         case Some(node) => $(node).ref.run[ValidatedNelThrow].andThen { psalmRefs =>
           psalmRefs.map(ref => $(ref).content.asValidated[String].andThen { ref =>
@@ -72,6 +73,7 @@ trait BookInfoXmlConverter {
       <editors>
         {book.editors.map(v => <editor>{v}</editor>)}
       </editors>
+      <psalmStartId>{book.psalmStartId}</psalmStartId>
       <psalms>
         {book.psalmRefs.map(r => <ref>{r.toString}</ref>)}
       </psalms>
