@@ -2,7 +2,7 @@ package com.alelk.pws.library_manager
 package v2x.yaml_support
 
 import model.*
-import v2x.model.PsalmV2
+import v2x.model.Song
 
 import com.github.dwickern.macros.NameOf.nameOf
 import io.circe.syntax.*
@@ -13,16 +13,16 @@ import org.scalatest.matchers.should
 
 import java.util.Locale
 
-class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with PsalmV2YamlConverter {
+class SongYamlConverterTest extends AnyFlatSpec with should.Matchers with SongYamlConverter {
 
-  nameOf(psalmV2YamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
+  nameOf(songYamlEncoder) should "convert Psalm to YAML when psalm verse repeated and multiple choruses" in {
     val p =
-      PsalmV2(
+      Song(
         id = 1,
         version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
-        text = List(
+        lyric = List(
           PsalmVerse(Set(1), "Verse 1 Line 1\nVerse 1 Line 2"),
           PsalmChorus(Set(2, 4), "Chorus 1 Line 1\nChorus 1 Line 2"),
           PsalmVerse(Set(3, 5), "Verse 2 Line 1\nVerse 2 Line 2"),
@@ -50,7 +50,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
          |author: Author
          |name: Psalm Name
          |version: '1.1'
-         |text: |-
+         |lyric: |-
          |  Verse 1.
          |  Verse 1 Line 1
          |  Verse 1 Line 2
@@ -76,9 +76,9 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
          |- tonality 1
          |- tonality 2
          |references:
-         |- type: bibleRef
+         |- type: bible-ref
          |  value: Bible ref 1
-         |- type: bibleRef
+         |- type: bible-ref
          |  value: Bible ref 2
          """.stripMargin
 
@@ -88,14 +88,14 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
     parsed1 shouldBe parsed2
   }
 
-  nameOf(psalmV2YamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
+  nameOf(songYamlEncoder) should "convert Psalm to YAML when psalm verses are not repeated" in {
     val p =
-      PsalmV2(
+      Song(
         id = 2,
         version = Version("1.1"),
         name = "Psalm Name",
         numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 2)),
-        text = List(
+        lyric = List(
           PsalmVerse(Set(1), "Verse 1 Line 1\nVerse 1 Line 2"),
           PsalmChorus(Set(2, 4), "Chorus 2,4 Line 1\nChorus 2,4 Line 2"),
           PsalmVerse(Set(3), "Verse 2 Line 1\nVerse 2 Line 2"),
@@ -116,7 +116,7 @@ class PsalmV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psa
          |  book1: 1
          |  book2: 2
          |version: '1.1'
-         |text: |-
+         |lyric: |-
          |  1.
          |  Verse 1 Line 1
          |  Verse 1 Line 2

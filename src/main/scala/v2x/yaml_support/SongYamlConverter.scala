@@ -2,18 +2,18 @@ package com.alelk.pws.library_manager
 package v2x.yaml_support
 
 import model.*
-import v2x.model.PsalmV2
+import v2x.model.Song
 
 import io.circe.*
 import io.circe.generic.semiauto.*
 import io.circe.syntax.*
 
-trait PsalmV2YamlConverter {
+trait SongYamlConverter {
 
-  implicit protected lazy val psalmNumberListEncoder: Encoder[List[PsalmNumber]] = (ns: List[PsalmNumber]) =>
+  implicit protected lazy val songNumberListEncoder: Encoder[List[PsalmNumber]] = (ns: List[PsalmNumber]) =>
     Json.obj(ns.map { case PsalmNumber(book, num) => (book, num.asJson) }: _*)
 
-  implicit protected lazy val psalmPartListEncoder: Encoder[List[PsalmPart]] = (ps: List[PsalmPart]) =>
+  implicit protected lazy val songLyricEncoder: Encoder[List[PsalmPart]] = (ps: List[PsalmPart]) =>
     Json.fromString {
       val verses = ps.filter(_.isInstanceOf[PsalmVerse]).sortBy(_.numbers.min).zipWithIndex
       val choruses = ps.filter(_.isInstanceOf[PsalmChorus]).sortBy(_.numbers.min).zipWithIndex
@@ -51,20 +51,20 @@ trait PsalmV2YamlConverter {
     }
 
 
-  implicit protected lazy val psalmReferenceEncoder: Encoder[Reference] = {
-    case BibleRef(text) => Json.obj("type" -> "bibleRef".asJson, "value" -> text.asJson)
+  implicit protected lazy val songReferenceEncoder: Encoder[Reference] = {
+    case BibleRef(text) => Json.obj("type" -> "bible-ref".asJson, "value" -> text.asJson)
     case _ => throw new IllegalArgumentException("Unsupported reference type")
   }
 
   implicit protected lazy val tonalityListEncoder: Encoder[List[Tonality]] = (ts: List[Tonality]) => ts.map(_.value).asJson
 
-  implicit lazy val psalmV2YamlEncoder: Encoder[PsalmV2] = (p: PsalmV2) =>
+  implicit lazy val songYamlEncoder: Encoder[Song] = (p: Song) =>
     Json.fromFields(List(
       "id" -> Some(p.id.asJson),
       "name" -> Some(p.name.asJson),
       "numbers" -> Some(p.numbers.asJson),
       "version" -> Some(p.version.toString.asJson),
-      "text" -> Some(p.text.asJson),
+      "lyric" -> Some(p.lyric.asJson),
       "locale" -> Some(p.locale.toString.asJson),
       "tonalities" -> (if (p.tonalities.isEmpty) None else Some(p.tonalities.asJson)),
       "references" -> (if (p.references.isEmpty) None else Some(p.references.asJson)),
