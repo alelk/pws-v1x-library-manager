@@ -1,7 +1,7 @@
 package com.alelk.pws.library_manager
 
 import com.alelk.pws.library_manager.v2x.model.LibraryV2
-import com.alelk.pws.library_manager.v2x.yaml_support.{BookV2YamlConverter, LibraryV2YamlConverter, PsalmV2YamlConverter}
+import com.alelk.pws.library_manager.v2x.yaml_support.{BookV2YamlConverter, LibraryV2YamlConverter, SongYamlConverter}
 import io.circe.yaml.Printer
 import io.circe.yaml.Printer.StringStyle
 import io.lemonlabs.uri.Url
@@ -11,7 +11,7 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
-trait PwsLibraryV2Writer extends LibraryV2YamlConverter with BookV2YamlConverter with PsalmV2YamlConverter {
+trait PwsLibraryV2Writer extends LibraryV2YamlConverter with BookV2YamlConverter with SongYamlConverter {
 
   private val printer = Printer(stringStyle = StringStyle.Plain, preserveOrder = true)
 

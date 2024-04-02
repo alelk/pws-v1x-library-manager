@@ -2,7 +2,7 @@ package com.alelk.pws.library_manager
 
 import v2x.converter.toBookV2
 import v2x.model.{BookV2Info, LibraryV2}
-import v2x.yaml_support.{BookV2YamlConverter, PsalmV2YamlConverter}
+import v2x.yaml_support.{BookV2YamlConverter, SongYamlConverter}
 import validator.PwsLibraryV1xValidator
 
 import advxml.data.ValidatedNelThrow
@@ -10,7 +10,7 @@ import cats.data.NonEmptyList
 import cats.implicits.*
 import io.lemonlabs.uri.Url
 
-trait PwsLibraryV1xToV2xConverter extends PwsLibraryV1xLoader with PwsLibraryV1xValidator with BookV2YamlConverter with PsalmV2YamlConverter {
+trait PwsLibraryV1xToV2xConverter extends PwsLibraryV1xLoader with PwsLibraryV1xValidator with BookV2YamlConverter with SongYamlConverter {
 
   def convert(url: Url): ValidatedNelThrow[LibraryV2] =
     validateLibrary(url).andThen {

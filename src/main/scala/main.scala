@@ -32,7 +32,7 @@ def main(args: String*): Unit = {
       result match
         case Valid(library) =>
           println(s"Count books: ${library.books.size}")
-          println(s"Count psalms: ${library.books.map(_.book.psalms.size).sum}")
+          println(s"Count psalms: ${library.books.map(_.book.songs.size).sum}")
           val outputUrl = Url.parse(File(".").toURI.resolve(outputFilename).toURL.toString)
           pwsLibraryV2Writer.write(library, outputUrl)
           println(s"Library converted and saved to $outputUrl")

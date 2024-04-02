@@ -2,7 +2,7 @@ package com.alelk.pws.library_manager
 package v2x.yaml_support
 
 import model.*
-import v2x.model.{BookV2, PsalmV2}
+import v2x.model.{BookV2, Song}
 
 import com.github.dwickern.macros.NameOf.nameOf
 import io.circe.syntax.*
@@ -14,7 +14,7 @@ import org.scalatest.matchers.should
 import java.time.Year
 import java.util.Locale
 
-class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with PsalmV2YamlConverter with BookV2YamlConverter {
+class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with SongYamlConverter with BookV2YamlConverter {
 
   private val printer = Printer(stringStyle = StringStyle.Plain, preserveOrder = true)
 
@@ -24,13 +24,13 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psal
       displayShortName = "Book Short Name", signature = "book1",
       releaseDate = Some(Year.parse("2024")), description = Some("Multiline\nBook\nDescription"),
       preface = Some("Preface"), creators = List("Author1", "Author2"), editors = List("Editor1", "Editor2"),
-      psalms = List(
-        PsalmV2(
+      songs = List(
+        Song(
           id = 1,
           version = Version("1.1"),
           name = "Psalm Name",
           numbers = List(PsalmNumber("book1", 10), PsalmNumber("book2", 2)),
-          text = List(
+          lyric = List(
             PsalmVerse(Set(1), "Verse 1 Line 1\nVerse 1 Line 2"),
             PsalmChorus(Set(2, 4), "Chorus 1 Line 1\nChorus 1 Line 2"),
             PsalmVerse(Set(3, 5), "Verse 2 Line 1\nVerse 2 Line 2"),
@@ -41,12 +41,12 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psal
           author = Some("Author"),
           translator = Some("Translator"),
           composer = Some("Composer")),
-        PsalmV2(
+        Song(
           id = 7,
           version = Version("1.1"),
           name = "Psalm Name",
           numbers = List(PsalmNumber("book1", 1), PsalmNumber("book2", 100)),
-          text = List(
+          lyric = List(
             PsalmVerse(Set(1), "Verse 1 Line 1\nVerse 1 Line 2"),
             PsalmChorus(Set(2, 4), "Chorus 2,4 Line 1\nChorus 2,4 Line 2"),
             PsalmVerse(Set(3), "Verse 2 Line 1\nVerse 2 Line 2"),
@@ -78,14 +78,14 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psal
         |- Editor1
         |- Editor2
         |preface: Preface
-        |psalms:
+        |songs:
         |- id: 1
         |  name: Psalm Name
         |  numbers:
         |    book1: 10
         |    book2: 2
         |  version: '1.1'
-        |  text: |-
+        |  lyric: |-
         |    Verse 1.
         |    Verse 1 Line 1
         |    Verse 1 Line 2
@@ -110,9 +110,9 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psal
         |  - tonality 1
         |  - tonality 2
         |  references:
-        |  - type: bibleRef
+        |  - type: bible-ref
         |    value: Bible ref 1
-        |  - type: bibleRef
+        |  - type: bible-ref
         |    value: Bible ref 2
         |  author: Author
         |  composer: Composer
@@ -123,7 +123,7 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Psal
         |    book1: 1
         |    book2: 100
         |  version: '1.1'
-        |  text: |-
+        |  lyric: |-
         |    1.
         |    Verse 1 Line 1
         |    Verse 1 Line 2

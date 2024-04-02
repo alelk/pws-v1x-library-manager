@@ -10,8 +10,8 @@
     <option name="classBuf">
       <list>
         <option value="com.alelk.pws.library_manager.PwsLibraryV1xLoaderTest" />
+        <option value="com.alelk.pws.library_manager.v2x.yaml_support.SongYamlConverterTest" />
         <option value="com.alelk.pws.library_manager.v2x.yaml_support.BookV2YamlConverterTest" />
-        <option value="com.alelk.pws.library_manager.v2x.yaml_support.PsalmV2YamlConverterTest" />
         <option value="com.alelk.pws.library_manager.validator.PwsLibraryV1xValidatorTest" />
         <option value="com.alelk.pws.library_manager.xml_support.PsalmXmlConverterTest" />
         <option value="com.alelk.pws.library_manager.xml_support.BookInfoXmlConverterTest" />

@@ -8,7 +8,7 @@ extension (b: BookInfo)
   def toBookV2(psalms: List[Psalm]): BookV2 =
     BookV2(version = b.version, name = b.name, locale = b.language, displayName = b.displayName,
       displayShortName = b.displayShortName, signature = b.edition,
-      psalms =
+      songs =
         psalms
           .sortBy(_.numbers.find(_.bookEdition == b.edition).map(_.number).getOrElse(Int.MaxValue))
           .zipWithIndex.map { case (p, i) =>
