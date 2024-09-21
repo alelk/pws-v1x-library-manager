@@ -7,7 +7,7 @@ import v2x.model.BookV2
 extension (b: BookInfo)
   def toBookV2(psalms: List[Psalm]): BookV2 =
     BookV2(version = b.version, name = b.name, locale = b.language, displayName = b.displayName,
-      displayShortName = b.displayShortName, signature = b.edition,
+      displayShortName = b.displayShortName, id = b.edition,
       songs =
         psalms
           .sortBy(_.numbers.find(_.bookEdition == b.edition).map(_.number).getOrElse(Int.MaxValue))

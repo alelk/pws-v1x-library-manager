@@ -17,7 +17,7 @@ trait PwsLibraryV2Writer extends LibraryV2YamlConverter with BookV2YamlConverter
 
   def write(library: LibraryV2, outputFile: Url) = {
     library.books.map { bookInfo =>
-      val bookUrl = URI.create(outputFile.toString).resolve(s"books/${bookInfo.book.signature}.pws2bk")
+      val bookUrl = URI.create(outputFile.toString).resolve(s"books/${bookInfo.book.id}.pws2bk")
       println(s"Create book $bookUrl...")
       val bookYaml = printer.pretty(bookInfo.book.asJson)
       Files.write(Paths.get(bookUrl), bookYaml.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)

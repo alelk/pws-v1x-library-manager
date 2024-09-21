@@ -16,7 +16,7 @@ trait BookV2YamlConverter {
       "displayShortName" -> Some(b.displayShortName.asJson),
       "version" -> Some(b.version.toString.asJson),
       "locale" -> Some(b.locale.toString.asJson),
-      "signature" -> Some(b.signature.asJson),
+      "id" -> Some(b.id.asJson),
       "releaseDate" -> b.releaseDate.map(_.asJson),
       "description" -> b.description.map(_.asJson),
       "creators" -> (if (b.creators.isEmpty) None else Some(b.creators.asJson)),

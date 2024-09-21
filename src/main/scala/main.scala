@@ -45,6 +45,7 @@ def main(args: String*): Unit = {
           |-- PWS Library v1.x manager --
           |Usage:
           |  validate [file] - validate specified PWS v1.x library
+          |  convert [input file] [output file] - convert specified PWS v1.x library to v2.x format
           |  --help - show this help
           |""".stripMargin)
     case _ => println("Invalid command. Run this program with '--help' argument to show usage information.")

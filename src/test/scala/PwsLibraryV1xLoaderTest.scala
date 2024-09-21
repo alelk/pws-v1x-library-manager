@@ -6,6 +6,7 @@ import org.scalatest.matchers.*
 import com.github.dwickern.macros.NameOf.*
 import io.lemonlabs.uri.Url
 import cats.implicits.*
+import com.alelk.pws.library_manager.model.BibleRef
 
 class PwsLibraryV1xLoaderTest extends AnyFlatSpec with should.Matchers with PwsLibraryV1xLoader {
 
@@ -21,6 +22,12 @@ class PwsLibraryV1xLoaderTest extends AnyFlatSpec with should.Matchers with PwsL
         books should have length 2
         val List(book1, book2) = books
         book1.info.displayName shouldNot have length 0
+        book1.psalms.foreach { psalms =>
+          psalms should have length 1
+          val (psalm1, _) = psalms.head
+          psalm1.references should have length 1
+          psalm1.references.head should be (BibleRef("Слушайте слово (Ам. 3:1)"))
+        }
         book2.info.displayName shouldNot have length 0
         book2.psalms.andThen { psalms =>
           psalms should have length 2

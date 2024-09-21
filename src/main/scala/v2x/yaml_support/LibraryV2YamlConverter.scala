@@ -14,7 +14,7 @@ trait LibraryV2YamlConverter {
       "books" -> lib.books.map { bookInfo =>
         Json.fromFields(List(
           "priority" -> bookInfo.priority.asJson,
-          "bookRef" -> s"books/${bookInfo.book.signature}.pws2bk".asJson
+          "bookRef" -> s"books/${bookInfo.book.id}.pws2bk".asJson
         ))
       }.asJson
     ))

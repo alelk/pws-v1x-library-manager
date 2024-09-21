@@ -40,6 +40,7 @@ trait PsalmXmlConverter {
         }
         case None => Nil.valid
       },
+      $(psalm).annotation.content.as[Option[String]].valid,
       $(psalm).tonalities.run[Option] match {
         case Some(node) => $(node).tonality.run[ValidatedNelThrow].andThen { tonalities =>
           tonalities.map(_.asValidated[Tonality]).toList.sequence
@@ -49,7 +50,10 @@ trait PsalmXmlConverter {
       $(psalm).author.content.as[Option[String]].valid,
       $(psalm).translator.content.as[Option[String]].valid,
       $(psalm).composer.content.as[Option[String]].valid
-    ).mapN(Psalm.apply)
+    ).mapN { (version, name, numbers, text, references, annotation, tonalities, author, translator, composer) =>
+      val refs = references :++ annotation.map(BibleRef.apply).toList
+      Psalm(version, name, numbers, text, refs, tonalities, author, translator, composer)
+    }
   }
 
   implicit lazy val psalmEncoder: XmlEncoder[Psalm] = XmlEncoder.of { psalm =>

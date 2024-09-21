@@ -21,7 +21,7 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Song
   nameOf(bookV2YamlEncoder) should "convert BookV2 to YAML" in {
     val book = BookV2(
       version = Version("2.1"), name = "BookName", locale = Locale.of("en"), displayName = "Book Display Name",
-      displayShortName = "Book Short Name", signature = "book1",
+      displayShortName = "Book Short Name", id = "book1",
       releaseDate = Some(Year.parse("2024")), description = Some("Multiline\nBook\nDescription"),
       preface = Some("Preface"), creators = List("Author1", "Author2"), editors = List("Editor1", "Editor2"),
       songs = List(
@@ -65,7 +65,7 @@ class BookV2YamlConverterTest extends AnyFlatSpec with should.Matchers with Song
         |displayShortName: Book Short Name
         |version: '2.1'
         |locale: en
-        |signature: book1
+        |id: book1
         |releaseDate: '2024'
         |description: |-
         |  Multiline
